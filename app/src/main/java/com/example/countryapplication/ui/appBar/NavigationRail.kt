@@ -4,6 +4,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
@@ -14,7 +15,6 @@ fun CountryAppNavigationRail(selectedDestination: NavDestination?, onTabPressed:
     NavigationRail(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
     ) {
         for (navItem in CountryAppNavigation.entries) {
             NavigationRailItem(
@@ -26,6 +26,13 @@ fun CountryAppNavigationRail(selectedDestination: NavDestination?, onTabPressed:
                         contentDescription = navItem.contentDescription,
                     )
                 },
+                colors = NavigationRailItemDefaults.colors(
+                    indicatorColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                ),
             )
         }
     }

@@ -2,12 +2,12 @@ package com.example.countryapplication.ui.appBar
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import com.example.countryapplication.ui.navigation.CountryAppNavigation
@@ -34,7 +34,12 @@ fun NavigationDrawerContent(
                     )
                 },
                 colors = NavigationDrawerItemDefaults.colors(
-                    unselectedContainerColor = Color.Transparent,
+                    selectedContainerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unselectedContainerColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 onClick = { onTabPressed(navItem.name) },
             )

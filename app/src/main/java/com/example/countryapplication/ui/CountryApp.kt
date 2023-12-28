@@ -31,7 +31,7 @@ import com.example.countryapplication.ui.utils.CountryNavigationType
 
 @Composable
 fun CountryApp(navigationType: CountryNavigationType, navController: NavHostController = rememberNavController()) {
-    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
     val goHome: () -> Unit = {
         navController.popBackStack(
@@ -60,7 +60,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                                 .fillMaxHeight(),
                         ) {
                             NavigationDrawerContent(
-                                selectedDestination = navController.currentDestination,
+                                selectedDestination = currentDestination,
                                 onTabPressed = { node: String -> navController.navigate(node) },
                                 modifier = drawerContentModifier
                                     .wrapContentSize(),
@@ -89,6 +89,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                 },
                 bottomBar = {
                     MyBottomAppBar(
+                        selectedDestination = currentDestination,
                         onTabPressed = { node: String -> navController.navigate(node) },
                     )
                 },
@@ -105,7 +106,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
             Row {
                 AnimatedVisibility(visible = navigationType == CountryNavigationType.NAVIGATION_RAIL) {
                     CountryAppNavigationRail(
-                        selectedDestination = navController.currentDestination,
+                        selectedDestination = currentDestination,
                         onTabPressed = { node: String -> navController.navigate(node) },
                     )
                 }

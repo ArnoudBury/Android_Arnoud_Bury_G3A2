@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">CountryApplication</string>
     <string name="destination_home">Home</string>
-    <string name="destination_country">Country</string>
+    <string name="destination_country">Countries</string>
 </resources>
