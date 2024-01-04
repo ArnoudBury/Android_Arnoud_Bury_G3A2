@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.countryapplication.ui.country.CountryDetailScreen
 import com.example.countryapplication.ui.country.CountryScreen
 import com.example.countryapplication.ui.home.HomeScreen
 
@@ -12,6 +13,7 @@ import com.example.countryapplication.ui.home.HomeScreen
 fun navComponent(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    onCountryClick: (String) -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -22,7 +24,11 @@ fun navComponent(
             HomeScreen()
         }
         composable(route = CountryAppNavigation.Country.name) {
-            CountryScreen()
+            CountryScreen(onCountryClick)
+        }
+        composable(route = "${CountryAppNavigation.CountryDetails.name}/{name}") {
+            entry ->
+            CountryDetailScreen(entry.arguments?.getString("name") ?: "")
         }
     }
 }

@@ -16,7 +16,7 @@ fun CountryAppNavigationRail(selectedDestination: NavDestination?, onTabPressed:
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primary,
     ) {
-        for (navItem in CountryAppNavigation.entries) {
+        for (navItem in CountryAppNavigation.entries.filter { it.displayed }) {
             NavigationRailItem(
                 selected = selectedDestination?.route == navItem.name,
                 onClick = { onTabPressed(navItem.name) },

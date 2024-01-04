@@ -16,7 +16,7 @@ fun MyBottomAppBar(selectedDestination: NavDestination?, onTabPressed: ((String)
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primary,
         actions = {
-            for (navItem in CountryAppNavigation.entries) {
+            for (navItem in CountryAppNavigation.entries.filter { it.displayed }) {
                 NavigationBarItem(
                     selected = navItem.name == selectedDestination?.route,
                     onClick = { onTabPressed(navItem.name) },

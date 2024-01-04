@@ -19,7 +19,7 @@ fun NavigationDrawerContent(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        for (navItem in CountryAppNavigation.entries) {
+        for (navItem in CountryAppNavigation.entries.filter { it.displayed }) {
             NavigationDrawerItem(
                 selected = selectedDestination?.route == navItem.name,
                 label = {

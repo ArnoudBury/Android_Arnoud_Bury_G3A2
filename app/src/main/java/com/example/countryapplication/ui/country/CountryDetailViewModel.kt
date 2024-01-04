@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -18,28 +17,32 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class CountryViewModel(private val countryRepository: CountryRepository) : ViewModel() {
+class CountryDetailViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CountryState(null))
-    val uiState: StateFlow<CountryState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(CountryDetailState(null))
+    val uiState: StateFlow<CountryDetailState> = _uiState.asStateFlow()
 
-    var countryApiState: CountryApiState by mutableStateOf(CountryApiState.Loading)
+    var countryName: String = ""
         private set
 
-    init {
-        getApiCountries()
+    var countryDetailApiState: CountryDetailApiState by mutableStateOf(CountryDetailApiState.Loading)
+        private set
+
+    fun setCountryName(countryName: String) {
+        this.countryName = countryName
+        getCountry()
     }
 
-    private fun getApiCountries() {
+    private fun getCountry() {
         viewModelScope.launch {
             try {
-                val listResult = countryRepository.getCountries()
+                val country = countryRepository.getCountry(countryName)
                 _uiState.update {
-                    it.copy(countries = listResult)
+                    it.copy(country = country)
                 }
-                countryApiState = CountryApiState.Success(listResult)
+                countryDetailApiState = CountryDetailApiState.Success(country)
             } catch (e: IOException) {
-                countryApiState = CountryApiState.Error
+                countryDetailApiState = CountryDetailApiState.Error
             }
         }
     }
@@ -47,9 +50,9 @@ class CountryViewModel(private val countryRepository: CountryRepository) : ViewM
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as CountryApplication)
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CountryApplication)
                 val countryRepository = application.container.countryRepository
-                CountryViewModel(
+                CountryDetailViewModel(
                     countryRepository = countryRepository,
                 )
             }

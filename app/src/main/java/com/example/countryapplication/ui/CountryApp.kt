@@ -14,7 +14,6 @@ import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -40,7 +39,9 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
         )
     }
 
-    val goToCountry = { navController.navigate(CountryAppNavigation.Country.name) }
+    fun onCountryClick(countryName: String) {
+        navController.navigate("${CountryAppNavigation.CountryDetails.name}/${countryName}")
+    }
 
     when (navigationType) {
         CountryNavigationType.PERMANENT_NAVIGATION_DRAWER -> {
@@ -77,6 +78,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     navComponent(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
+                        onCountryClick = ::onCountryClick
                     )
                 }
             }
@@ -98,6 +100,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                 navComponent(
                     navController = navController,
                     modifier = Modifier.padding(innerPadding),
+                    onCountryClick = ::onCountryClick
                 )
             }
         }
@@ -118,6 +121,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     navComponent(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
+                        onCountryClick = ::onCountryClick
                     )
                 }
             }

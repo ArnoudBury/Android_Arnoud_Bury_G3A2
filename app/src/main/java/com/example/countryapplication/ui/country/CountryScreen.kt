@@ -2,6 +2,7 @@ package com.example.countryapplication.ui.country
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,26 +30,34 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 
 @Composable
-fun CountryScreen(countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.Factory)) {
+fun CountryScreen(onCountryClick: (countryName: String) -> Unit, countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.Factory)) {
     val countryState by countryViewModel.uiState.collectAsState()
 
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
         if (countryState.countries != null) {
-            items(countryState.countries!!) {
-                CountryIndexCard(countryName = it.name.official, imageUrl = it.flags.png)
+            items(countryState.countries!!.sortedBy { it.name.common }) {
+                CountryIndexCard(countryName = it.name.common, imageUrl = it.flags.png, officialName = it.name.official) {
+                    onCountryClick(it)
+                }
             }
         }
     }
 }
 
 @Composable
-fun CountryIndexCard(countryName: String, imageUrl: String) {
+fun CountryIndexCard(
+    countryName: String,
+    imageUrl: String,
+    officialName: String,
+    onCountryClick: (String) -> Unit
+) {
     Surface(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(100.dp),
+            .height(80.dp)
+            .clickable { onCountryClick(officialName) },
         shape = RoundedCornerShape(8.dp),
     ) {
         Row(
@@ -64,7 +73,7 @@ fun CountryIndexCard(countryName: String, imageUrl: String) {
                 ),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(125.dp)
+                    .width(100.dp)
                     .aspectRatio(1f),
                 contentScale = ContentScale.FillHeight,
             )
