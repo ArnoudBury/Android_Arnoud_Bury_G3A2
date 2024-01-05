@@ -2,7 +2,8 @@ package com.example.countryapplication.ui.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.countryapplication.R
@@ -15,13 +16,13 @@ enum class CountryAppNavigation(
 ) {
     Home(
         title = R.string.destination_home,
-        icon = Icons.Outlined.Home,
+        icon = Icons.Default.Home,
         contentDescription = "Navigate to the home page",
         displayed = true,
     ),
     Country(
         title = R.string.destination_country,
-        icon = Icons.Outlined.List,
+        icon = Icons.Default.Flag,
         contentDescription = "Navigate to the country page",
         displayed = true,
     ),

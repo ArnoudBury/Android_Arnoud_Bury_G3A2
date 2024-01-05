@@ -26,12 +26,25 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
 import com.example.countryapplication.model.countryRank.density.CountryRankDensity
+import com.example.countryapplication.ui.ErrorScreen
+import com.example.countryapplication.ui.LoadingScreen
 import kotlin.math.roundToInt
 
 @Composable
 fun CountryRankDensityScreen(countryRankDensityViewModel: CountryRankDensityViewModel = viewModel(factory = CountryRankDensityViewModel.Factory)) {
     val countryRankPopulationState by countryRankDensityViewModel.uiState.collectAsState()
 
+    val countryApiState = countryRankDensityViewModel.countryApiState
+
+    when (countryApiState) {
+        is CountryRankDensityApiState.Loading -> LoadingScreen()
+        is CountryRankDensityApiState.Error -> ErrorScreen()
+        is CountryRankDensityApiState.Success -> CountryRankDensityComponent(countryRankPopulationState)
+    }
+}
+
+@Composable
+private fun CountryRankDensityComponent(countryRankPopulationState: CountryRankDensityState) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
         if (countryRankPopulationState.countries != null) {

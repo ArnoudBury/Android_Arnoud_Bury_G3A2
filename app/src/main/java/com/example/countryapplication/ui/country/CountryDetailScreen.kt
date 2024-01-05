@@ -53,6 +53,8 @@ import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
 import com.example.countryapplication.model.country.Currency
 import com.example.countryapplication.model.country.detail.CountryDetail
+import com.example.countryapplication.ui.ErrorScreen
+import com.example.countryapplication.ui.LoadingScreen
 
 @Composable
 fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)) {
@@ -62,6 +64,20 @@ fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryD
         countryDetailViewModel.setCountryName(countryName)
     }
 
+    val countryApiState = countryDetailViewModel.countryDetailApiState
+
+    when (countryApiState) {
+        is CountryDetailApiState.Loading -> LoadingScreen()
+        is CountryDetailApiState.Error -> ErrorScreen()
+        is CountryDetailApiState.Success -> CountryDetailComponent(countryState, goToCountries)
+    }
+}
+
+@Composable
+private fun CountryDetailComponent(
+    countryState: CountryDetailState,
+    goToCountries: () -> Unit
+) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {

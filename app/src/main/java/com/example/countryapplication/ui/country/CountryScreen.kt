@@ -28,16 +28,36 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
+import com.example.countryapplication.ui.ErrorScreen
+import com.example.countryapplication.ui.LoadingScreen
 
 @Composable
 fun CountryScreen(onCountryClick: (countryName: String) -> Unit, countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.Factory)) {
     val countryState by countryViewModel.uiState.collectAsState()
 
+    val countryApiState = countryViewModel.countryApiState
+
+    when (countryApiState) {
+        is CountryApiState.Loading -> LoadingScreen()
+        is CountryApiState.Error -> ErrorScreen()
+        is CountryApiState.Success -> CountryListComponent(countryState, onCountryClick)
+    }
+}
+
+@Composable
+private fun CountryListComponent(
+    countryState: CountryState,
+    onCountryClick: (countryName: String) -> Unit,
+) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
         if (countryState.countries != null) {
             items(countryState.countries!!.sortedBy { it.name.common }) {
-                CountryIndexCard(countryName = it.name.common, imageUrl = it.flags.png, officialName = it.name.official) {
+                CountryIndexCard(
+                    countryName = it.name.common,
+                    imageUrl = it.flags.png,
+                    officialName = it.name.official,
+                ) {
                     onCountryClick(it)
                 }
             }
@@ -50,7 +70,7 @@ fun CountryIndexCard(
     countryName: String,
     imageUrl: String,
     officialName: String,
-    onCountryClick: (String) -> Unit
+    onCountryClick: (String) -> Unit,
 ) {
     Surface(
         modifier = Modifier

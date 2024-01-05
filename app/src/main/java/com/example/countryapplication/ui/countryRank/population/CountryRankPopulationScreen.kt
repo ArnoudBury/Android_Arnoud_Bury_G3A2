@@ -26,11 +26,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
 import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
+import com.example.countryapplication.ui.ErrorScreen
+import com.example.countryapplication.ui.LoadingScreen
 
 @Composable
 fun CountryRankPopulationScreen(countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
     val countryRankPopulationState by countryRankPopulationViewModel.uiState.collectAsState()
 
+    val countryApiState = countryRankPopulationViewModel.countryApiState
+
+    when (countryApiState) {
+        is CountryRankPopulationApiState.Loading -> LoadingScreen()
+        is CountryRankPopulationApiState.Error -> ErrorScreen()
+        is CountryRankPopulationApiState.Success -> CountryRankPopulationComponent(countryRankPopulationState)
+    }
+}
+
+@Composable
+private fun CountryRankPopulationComponent(countryRankPopulationState: CountryRankPopulationState) {
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
         if (countryRankPopulationState.countries != null) {
