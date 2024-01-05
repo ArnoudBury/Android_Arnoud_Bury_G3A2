@@ -29,6 +29,7 @@ import com.example.countryapplication.model.countryRank.density.CountryRankDensi
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
+import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 import kotlin.math.roundToInt
 
 @Composable
@@ -85,7 +86,7 @@ fun CountryRankDensityItem(rank: Int, country: CountryRankDensity) {
         Text(country.name.common)
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.standard_padding)))
         Text(
-            "${(country.population / country.area).roundToInt()}/km²",
+            "${NumberFormatter.formatNumber((country.population / country.area).roundToInt())}/km²",
             modifier = Modifier.weight(1f).padding(
                 end = dimensionResource(
                     R.dimen.standard_padding,

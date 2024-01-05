@@ -29,6 +29,7 @@ import com.example.countryapplication.model.countryRank.area.CountryRankArea
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
+import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 
 @Composable
 fun CountryRankAreaScreen(goToHome: () -> Unit, countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory)) {
@@ -84,7 +85,7 @@ fun CountryRankAreaItem(rank: Int, country: CountryRankArea) {
         Text(country.name.common)
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.standard_padding)))
         Text(
-            "${country.area} km²",
+            "${NumberFormatter.formatScientificNotation(country.area)} km²",
             modifier = Modifier.weight(1f).padding(
                 end = dimensionResource(
                     R.dimen.standard_padding,

@@ -29,6 +29,7 @@ import com.example.countryapplication.model.countryRank.population.CountryRankPo
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
+import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 
 @Composable
 fun CountryRankPopulationScreen(goToHome: () -> Unit, countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
@@ -84,7 +85,7 @@ fun CountryRankPopulationItem(rank: Int, country: CountryRankPopulation) {
         Text(country.name.common)
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.standard_padding)))
         Text(
-            country.population.toString(),
+            NumberFormatter.formatNumber(country.population),
             modifier = Modifier.weight(1f).padding(
                 end = dimensionResource(
                     R.dimen.standard_padding,
