@@ -40,7 +40,11 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
     }
 
     fun onCountryClick(countryName: String) {
-        navController.navigate("${CountryAppNavigation.CountryDetails.name}/${countryName}")
+        navController.navigate("${CountryAppNavigation.CountryDetails.name}/$countryName")
+    }
+
+    val goToCountries = {
+        navController.navigate(CountryAppNavigation.Country.name)
     }
 
     when (navigationType) {
@@ -78,7 +82,8 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     navComponent(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
-                        onCountryClick = ::onCountryClick
+                        onCountryClick = ::onCountryClick,
+                        goToCountries = goToCountries,
                     )
                 }
             }
@@ -100,7 +105,8 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                 navComponent(
                     navController = navController,
                     modifier = Modifier.padding(innerPadding),
-                    onCountryClick = ::onCountryClick
+                    onCountryClick = ::onCountryClick,
+                    goToCountries = goToCountries,
                 )
             }
         }
@@ -121,7 +127,8 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     navComponent(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
-                        onCountryClick = ::onCountryClick
+                        onCountryClick = ::onCountryClick,
+                        goToCountries = goToCountries,
                     )
                 }
             }

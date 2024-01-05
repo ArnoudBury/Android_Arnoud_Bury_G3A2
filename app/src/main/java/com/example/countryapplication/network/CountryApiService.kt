@@ -9,7 +9,7 @@ interface CountryApiService {
     @GET("all?fields=name,flags")
     suspend fun getCountries(): List<CountryIndex>
 
-    @GET("name/{name}?fields=name,flags,coatOfArms,population,area,capital,languages,region,timezones,currencies")
+    @GET("name/{name}?fields=name,flags,coatOfArms,population,area,capital,languages,region,timezones,currencies,independent,unMember,tld,idd,car")
     suspend fun getCountry(
         @Path("name") countryName: String,
     ): List<CountryDetail>

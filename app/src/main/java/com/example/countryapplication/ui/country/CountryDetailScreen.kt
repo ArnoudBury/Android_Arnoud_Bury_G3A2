@@ -10,17 +10,30 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.CorporateFare
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.Landscape
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Money
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,22 +55,24 @@ import com.example.countryapplication.model.Currency
 import com.example.countryapplication.model.detail.CountryDetail
 
 @Composable
-fun CountryDetailScreen(countryName: String, countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)) {
+fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)) {
     val countryState by countryDetailViewModel.uiState.collectAsState()
 
     LaunchedEffect(key1 = countryName) {
         countryDetailViewModel.setCountryName(countryName)
     }
 
-    Column {
-        CountryDetailInfoName(country = countryState.country)
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+    ) {
+        CountryDetailInfoName(country = countryState.country, goToCountries)
         CountryDetailInfoSymbol(country = countryState.country)
         CountryDetailInfo(country = countryState.country)
     }
 }
 
 @Composable
-fun CountryDetailInfoName(country: CountryDetail?) {
+fun CountryDetailInfoName(country: CountryDetail?, goToCountries: () -> Unit) {
     if (country != null) {
         Column(
             modifier = Modifier
@@ -65,7 +80,27 @@ fun CountryDetailInfoName(country: CountryDetail?) {
                 .padding(dimensionResource(R.dimen.standard_padding)),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(country.name.common, style = MaterialTheme.typography.titleLarge)
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                IconButton(
+                    onClick = goToCountries,
+                    modifier = Modifier.size(48.dp),
+
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
+                Text(
+                    country.name.common,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
             Text(country.name.official, style = MaterialTheme.typography.titleMedium)
             country.name.nativeName.forEach { (key, value) ->
                 Text("${value.official} ($key)", style = MaterialTheme.typography.titleMedium)
@@ -135,47 +170,97 @@ fun CountryDetailInfo(country: CountryDetail?) {
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(dimensionResource(R.dimen.standard_padding)),
             horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.heightIn(max = 1000.dp),
         ) {
             item {
                 CountryInfoItem(
                     key = "Population",
                     value = country.population.toString(),
-                    icon = Icons.Default.Person,
+                    icon = Icons.Default.People,
                 )
             }
             item {
                 CountryInfoItem(
                     key = "Area",
                     value = "${country.area} km²",
-                    icon = Icons.Default.LocationOn,
+                    icon = Icons.Default.Landscape,
                 )
             }
             item {
                 CountryInfoItem(
                     key = "Capital",
                     value = country.capital.joinToString(),
-                    icon = Icons.Default.Home,
+                    icon = Icons.Default.LocationCity,
                 )
             }
             item {
                 CountryInfoItem(
                     key = "Languages",
                     value = country.languages.values.joinToString(),
-                    icon = Icons.Default.Face,
+                    icon = Icons.Default.Translate,
                 )
             }
             item {
                 CountryInfoItem(
                     key = "Region",
                     value = country.region,
-                    icon = Icons.Default.Face,
+                    icon = Icons.Default.LocationOn,
                 )
             }
             item {
                 CountryInfoItem(
                     key = "Currencies",
                     value = formatCurrencies(country.currencies),
-                    icon = Icons.Default.Face,
+                    icon = Icons.Default.Money,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "Independent",
+                    value = if (country.independent) "Yes" else "No",
+                    icon = Icons.Default.CheckCircle,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "UN Member",
+                    value = if (country.unMember) "Yes" else "No",
+                    icon = Icons.Default.CorporateFare,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "Internet TLD",
+                    value = country.tld.joinToString(),
+                    icon = Icons.Default.Language,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "Calling code",
+                    value = displayWithSuffixes(country.idd.root, country.idd.suffixes),
+                    icon = Icons.Default.Call,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "License plate code",
+                    value = country.car.signs.joinToString("\n"),
+                    icon = Icons.Default.DirectionsCar,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "Driving side",
+                    value = country.car.side,
+                    icon = Icons.Default.DirectionsCar,
+                )
+            }
+            item {
+                CountryInfoItem(
+                    key = "Timezones",
+                    value = country.timezones.joinToString("\n"),
+                    icon = Icons.Default.AccessTime,
                 )
             }
         }
@@ -185,10 +270,12 @@ fun CountryDetailInfo(country: CountryDetail?) {
 @Composable
 fun CountryInfoItem(key: String, value: String, icon: ImageVector) {
     Row(
-        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(8.dp)
+            .padding(
+                vertical = dimensionResource(R.dimen.standard_padding),
+                horizontal = dimensionResource(R.dimen.small_padding),
+            )
             .fillMaxWidth(),
     ) {
         Icon(
@@ -207,4 +294,8 @@ fun CountryInfoItem(key: String, value: String, icon: ImageVector) {
 
 fun formatCurrencies(currencies: Map<String, Currency>): String {
     return currencies.values.joinToString(", ") { "${it.name} (${it.symbol})" }
+}
+
+fun displayWithSuffixes(root: String, suffixes: List<String>): String {
+    return suffixes.joinToString("\n") { "$root$it" }
 }

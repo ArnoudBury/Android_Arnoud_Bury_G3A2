@@ -86,6 +86,9 @@ dependencies {
     // Online images
     implementation("io.coil-kt:coil-compose:1.4.0")
 
+    //Icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.3")
+
     val lifecycleVersion = "2.6.2"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")

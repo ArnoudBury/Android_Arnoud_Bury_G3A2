@@ -14,6 +14,7 @@ fun navComponent(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     onCountryClick: (String) -> Unit,
+    goToCountries: () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -28,7 +29,7 @@ fun navComponent(
         }
         composable(route = "${CountryAppNavigation.CountryDetails.name}/{name}") {
             entry ->
-            CountryDetailScreen(entry.arguments?.getString("name") ?: "")
+            CountryDetailScreen(entry.arguments?.getString("name") ?: "", goToCountries)
         }
     }
 }
