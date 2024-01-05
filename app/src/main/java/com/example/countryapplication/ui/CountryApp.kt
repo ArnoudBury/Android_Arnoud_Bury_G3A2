@@ -47,6 +47,14 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
         navController.navigate(CountryAppNavigation.Country.name)
     }
 
+    val goToAreaRank = {
+        navController.navigate(CountryAppNavigation.CountryRankArea.name)
+    }
+
+    val goToPopulationRank = {
+        navController.navigate(CountryAppNavigation.CountryRankPopulation.name)
+    }
+
     when (navigationType) {
         CountryNavigationType.PERMANENT_NAVIGATION_DRAWER -> {
             PermanentNavigationDrawer(
@@ -84,6 +92,8 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         modifier = Modifier.padding(innerPadding),
                         onCountryClick = ::onCountryClick,
                         goToCountries = goToCountries,
+                        goToAreaRank = goToAreaRank,
+                        goToPopulationRank = goToPopulationRank,
                     )
                 }
             }
@@ -107,6 +117,8 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     modifier = Modifier.padding(innerPadding),
                     onCountryClick = ::onCountryClick,
                     goToCountries = goToCountries,
+                    goToAreaRank = goToAreaRank,
+                    goToPopulationRank = goToPopulationRank,
                 )
             }
         }
@@ -129,6 +141,8 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         modifier = Modifier.padding(innerPadding),
                         onCountryClick = ::onCountryClick,
                         goToCountries = goToCountries,
+                        goToAreaRank = goToAreaRank,
+                        goToPopulationRank = goToPopulationRank,
                     )
                 }
             }

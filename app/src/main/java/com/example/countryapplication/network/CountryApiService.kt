@@ -1,7 +1,9 @@
 package com.example.countryapplication.network
 
-import com.example.countryapplication.model.detail.CountryDetail
-import com.example.countryapplication.model.index.CountryIndex
+import com.example.countryapplication.model.country.detail.CountryDetail
+import com.example.countryapplication.model.country.index.CountryIndex
+import com.example.countryapplication.model.countryRank.area.CountryRankArea
+import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -13,4 +15,10 @@ interface CountryApiService {
     suspend fun getCountry(
         @Path("name") countryName: String,
     ): List<CountryDetail>
+
+    @GET("all?fields=name,area,flags")
+    suspend fun getCountriesRankedArea(): List<CountryRankArea>
+
+    @GET("all?fields=name,population,flags")
+    suspend fun getCountriesRankedPopulation(): List<CountryRankPopulation>
 }

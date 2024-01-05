@@ -1,6 +1,6 @@
 package com.example.countryapplication.ui.country
 
-import com.example.countryapplication.model.detail.CountryDetail
+import com.example.countryapplication.model.country.detail.CountryDetail
 
 data class CountryDetailState(
     val country: CountryDetail?,

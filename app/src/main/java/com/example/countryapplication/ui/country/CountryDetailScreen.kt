@@ -51,8 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.Currency
-import com.example.countryapplication.model.detail.CountryDetail
+import com.example.countryapplication.model.country.Currency
+import com.example.countryapplication.model.country.detail.CountryDetail
 
 @Composable
 fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)) {

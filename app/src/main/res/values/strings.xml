@@ -3,4 +3,6 @@
     <string name="destination_home">Home</string>
     <string name="destination_country">Countries</string>
     <string name="destination_country_detail">CountriesDetail</string>
+    <string name="destination_country_rank_area">CountriesRankArea</string>
+    <string name="destination_country_rank_population">CountriesRankPopulation</string>
 </resources>

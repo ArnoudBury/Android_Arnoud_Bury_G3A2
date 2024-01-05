@@ -1,4 +1,4 @@
-package com.example.countryapplication.model
+package com.example.countryapplication.model.country
 
 data class Country(
     val name: Name,

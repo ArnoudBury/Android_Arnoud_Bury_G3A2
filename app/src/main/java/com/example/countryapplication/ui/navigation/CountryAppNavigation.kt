@@ -31,4 +31,16 @@ enum class CountryAppNavigation(
         contentDescription = "Navigate to the country detail page",
         displayed = false,
     ),
+    CountryRankArea(
+        title = R.string.destination_country_rank_area,
+        icon = Icons.Outlined.List,
+        contentDescription = "Navigate to the country area rank page",
+        displayed = false,
+    ),
+    CountryRankPopulation(
+        title = R.string.destination_country_rank_population,
+        icon = Icons.Outlined.List,
+        contentDescription = "Navigate to the country population rank page",
+        displayed = false,
+    ),
 }

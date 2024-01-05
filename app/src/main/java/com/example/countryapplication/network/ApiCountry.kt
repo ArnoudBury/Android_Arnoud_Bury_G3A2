@@ -1,17 +1,17 @@
 package com.example.countryapplication.network
 
-import com.example.countryapplication.model.CapitalInfo
-import com.example.countryapplication.model.Car
-import com.example.countryapplication.model.CoatOfArms
-import com.example.countryapplication.model.Country
-import com.example.countryapplication.model.Currency
-import com.example.countryapplication.model.Demonym
-import com.example.countryapplication.model.Flags
-import com.example.countryapplication.model.Idd
-import com.example.countryapplication.model.Maps
-import com.example.countryapplication.model.Name
-import com.example.countryapplication.model.PostalCode
-import com.example.countryapplication.model.Translation
+import com.example.countryapplication.model.country.CapitalInfo
+import com.example.countryapplication.model.country.Car
+import com.example.countryapplication.model.country.CoatOfArms
+import com.example.countryapplication.model.country.Country
+import com.example.countryapplication.model.country.Currency
+import com.example.countryapplication.model.country.Demonym
+import com.example.countryapplication.model.country.Flags
+import com.example.countryapplication.model.country.Idd
+import com.example.countryapplication.model.country.Maps
+import com.example.countryapplication.model.country.Name
+import com.example.countryapplication.model.country.PostalCode
+import com.example.countryapplication.model.country.Translation
 
 data class ApiCountry(
     val name: Name,
