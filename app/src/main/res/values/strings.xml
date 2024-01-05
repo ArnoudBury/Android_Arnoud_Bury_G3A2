@@ -5,4 +5,5 @@
     <string name="destination_country_detail">CountriesDetail</string>
     <string name="destination_country_rank_area">CountriesRankArea</string>
     <string name="destination_country_rank_population">CountriesRankPopulation</string>
+    <string name="destination_country_rank_density">CountriesRankDensity</string>
 </resources>

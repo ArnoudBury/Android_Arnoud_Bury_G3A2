@@ -1,4 +1,4 @@
-package com.example.countryapplication.ui.countryRank
+package com.example.countryapplication.ui.countryRank.population
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +22,8 @@ class CountryRankPopulationViewModel(private val countryRepository: CountryRepos
     private val _uiState = MutableStateFlow(CountryRankPopulationState(null))
     val uiState: StateFlow<CountryRankPopulationState> = _uiState.asStateFlow()
 
-    var countryApiState: CountryRankPopulationApiState by mutableStateOf(CountryRankPopulationApiState.Loading)
+    var countryApiState: CountryRankPopulationApiState by mutableStateOf(
+        CountryRankPopulationApiState.Loading)
         private set
 
     init {

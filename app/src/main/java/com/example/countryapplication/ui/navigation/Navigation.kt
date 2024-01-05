@@ -7,8 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.countryapplication.ui.country.CountryDetailScreen
 import com.example.countryapplication.ui.country.CountryScreen
-import com.example.countryapplication.ui.countryRank.CountryRankAreaScreen
-import com.example.countryapplication.ui.countryRank.CountryRankPopulationScreen
+import com.example.countryapplication.ui.countryRank.area.CountryRankAreaScreen
+import com.example.countryapplication.ui.countryRank.density.CountryRankDensityScreen
+import com.example.countryapplication.ui.countryRank.population.CountryRankPopulationScreen
 import com.example.countryapplication.ui.home.HomeScreen
 
 @Composable
@@ -18,7 +19,8 @@ fun navComponent(
     onCountryClick: (String) -> Unit,
     goToCountries: () -> Unit,
     goToAreaRank: () -> Unit,
-    goToPopulationRank: () -> Unit
+    goToPopulationRank: () -> Unit,
+    goToDensityRank: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -26,7 +28,7 @@ fun navComponent(
         modifier = modifier,
     ) {
         composable(route = CountryAppNavigation.Home.name) {
-            HomeScreen(goToAreaRank, goToPopulationRank)
+            HomeScreen(goToAreaRank, goToPopulationRank, goToDensityRank)
         }
         composable(route = CountryAppNavigation.Country.name) {
             CountryScreen(onCountryClick)
@@ -40,6 +42,9 @@ fun navComponent(
         }
         composable(route = CountryAppNavigation.CountryRankPopulation.name) {
             CountryRankPopulationScreen()
+        }
+        composable(route = CountryAppNavigation.CountryRankDensity.name) {
+            CountryRankDensityScreen()
         }
     }
 }

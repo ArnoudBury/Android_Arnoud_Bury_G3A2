@@ -1,4 +1,4 @@
-package com.example.countryapplication.ui.countryRank
+package com.example.countryapplication.ui.countryRank.area
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -1,4 +1,4 @@
-package com.example.countryapplication.ui.countryRank
+package com.example.countryapplication.ui.countryRank.area
 
 import com.example.countryapplication.model.countryRank.area.CountryRankArea
 

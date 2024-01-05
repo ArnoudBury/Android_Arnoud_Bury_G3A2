@@ -55,6 +55,10 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
         navController.navigate(CountryAppNavigation.CountryRankPopulation.name)
     }
 
+    val goToDensityRank = {
+        navController.navigate(CountryAppNavigation.CountryRankDensity.name)
+    }
+
     when (navigationType) {
         CountryNavigationType.PERMANENT_NAVIGATION_DRAWER -> {
             PermanentNavigationDrawer(
@@ -94,6 +98,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         goToCountries = goToCountries,
                         goToAreaRank = goToAreaRank,
                         goToPopulationRank = goToPopulationRank,
+                        goToDensityRank = goToDensityRank,
                     )
                 }
             }
@@ -119,6 +124,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     goToCountries = goToCountries,
                     goToAreaRank = goToAreaRank,
                     goToPopulationRank = goToPopulationRank,
+                    goToDensityRank = goToDensityRank,
                 )
             }
         }
@@ -143,6 +149,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         goToCountries = goToCountries,
                         goToAreaRank = goToAreaRank,
                         goToPopulationRank = goToPopulationRank,
+                        goToDensityRank = goToDensityRank,
                     )
                 }
             }

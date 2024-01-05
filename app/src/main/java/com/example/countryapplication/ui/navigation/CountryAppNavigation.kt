@@ -43,4 +43,10 @@ enum class CountryAppNavigation(
         contentDescription = "Navigate to the country population rank page",
         displayed = false,
     ),
+    CountryRankDensity(
+        title = R.string.destination_country_rank_density,
+        icon = Icons.Outlined.List,
+        contentDescription = "Navigate to the country density rank page",
+        displayed = false,
+    ),
 }

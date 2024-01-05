@@ -1,4 +1,4 @@
-package com.example.countryapplication.ui.countryRank
+package com.example.countryapplication.ui.countryRank.area
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -25,24 +25,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
+import com.example.countryapplication.model.countryRank.area.CountryRankArea
 
 @Composable
-fun CountryRankPopulationScreen(countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
-    val countryRankPopulationState by countryRankPopulationViewModel.uiState.collectAsState()
+fun CountryRankAreaScreen(countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory)) {
+    val countryRankAreaState by countryRankAreaViewModel.uiState.collectAsState()
 
     val lazyListState = rememberLazyListState()
     LazyColumn(state = lazyListState) {
-        if (countryRankPopulationState.countries != null) {
-            itemsIndexed(countryRankPopulationState.countries!!.sortedByDescending { it.population }) { index, country ->
-                CountryRankPopulationItem(rank = index + 1, country = country)
+        if (countryRankAreaState.countries != null) {
+            itemsIndexed(countryRankAreaState.countries!!.sortedByDescending { it.area }) { index, country ->
+                CountryRankAreaItem(rank = index + 1, country = country)
             }
         }
     }
 }
 
 @Composable
-fun CountryRankPopulationItem(rank: Int, country: CountryRankPopulation) {
+fun CountryRankAreaItem(rank: Int, country: CountryRankArea) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,7 +65,7 @@ fun CountryRankPopulationItem(rank: Int, country: CountryRankPopulation) {
         Text(country.name.common)
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.standard_padding)))
         Text(
-            country.population.toString(),
+            "${country.area} km²",
             modifier = Modifier.weight(1f).padding(
                 end = dimensionResource(
                     R.dimen.standard_padding,

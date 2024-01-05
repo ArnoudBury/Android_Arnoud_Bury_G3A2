@@ -26,7 +26,11 @@ import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
 
 @Composable
-fun HomeScreen(goToAreaRank: () -> Unit, goToPopulationRank: () -> Unit) {
+fun HomeScreen(
+    goToAreaRank: () -> Unit,
+    goToPopulationRank: () -> Unit,
+    goToDensityRank: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -46,6 +50,11 @@ fun HomeScreen(goToAreaRank: () -> Unit, goToPopulationRank: () -> Unit) {
             text = "Area",
             imageUrl = "https://preview.redd.it/world-map-of-the-largest-country-subdivisions-by-area-v0-jdr2rman9xf81.png?auto=webp&s=c642d0528c62a3a043ec1b4212883062962c69b4",
             onClick = goToAreaRank,
+        )
+        ButtonWithBackgroundImageClickable(
+            text = "Density",
+            imageUrl = "https://images.theconversation.com/files/202453/original/file-20180118-158536-1wgu9r9.png?ixlib=rb-1.1.0&rect=524%2C0%2C1950%2C972&q=45&auto=format&w=1356&h=668&fit=crop",
+            onClick = goToDensityRank,
         )
     }
 }

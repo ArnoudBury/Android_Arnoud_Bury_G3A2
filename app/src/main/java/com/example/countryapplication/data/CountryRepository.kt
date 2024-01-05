@@ -3,6 +3,7 @@ package com.example.countryapplication.data
 import com.example.countryapplication.model.country.detail.CountryDetail
 import com.example.countryapplication.model.country.index.CountryIndex
 import com.example.countryapplication.model.countryRank.area.CountryRankArea
+import com.example.countryapplication.model.countryRank.density.CountryRankDensity
 import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
 import com.example.countryapplication.network.CountryApiService
 
@@ -13,6 +14,8 @@ interface CountryRepository {
     suspend fun getCountriesRankedArea(): List<CountryRankArea>
 
     suspend fun getCountriesRankedPopulation(): List<CountryRankPopulation>
+
+    suspend fun getCountriesRankedDensity(): List<CountryRankDensity>
 
 }
 
@@ -33,5 +36,9 @@ class ApiCountryRepository(
 
     override suspend fun getCountriesRankedPopulation(): List<CountryRankPopulation> {
         return countryApiService.getCountriesRankedPopulation()
+    }
+
+    override suspend fun getCountriesRankedDensity(): List<CountryRankDensity> {
+        return countryApiService.getCountriesRankedDensity()
     }
 }
