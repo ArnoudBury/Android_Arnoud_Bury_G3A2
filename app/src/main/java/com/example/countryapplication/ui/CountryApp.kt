@@ -32,11 +32,8 @@ import com.example.countryapplication.ui.utils.CountryNavigationType
 fun CountryApp(navigationType: CountryNavigationType, navController: NavHostController = rememberNavController()) {
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
-    val goHome: () -> Unit = {
-        navController.popBackStack(
-            CountryAppNavigation.Home.name,
-            inclusive = false,
-        )
+    val goToHome: () -> Unit = {
+        navController.navigate(CountryAppNavigation.Home.name)
     }
 
     fun onCountryClick(countryName: String) {
@@ -99,6 +96,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         goToAreaRank = goToAreaRank,
                         goToPopulationRank = goToPopulationRank,
                         goToDensityRank = goToDensityRank,
+                        goToHome = goToHome
                     )
                 }
             }
@@ -125,6 +123,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     goToAreaRank = goToAreaRank,
                     goToPopulationRank = goToPopulationRank,
                     goToDensityRank = goToDensityRank,
+                    goToHome = goToHome,
                 )
             }
         }
@@ -150,6 +149,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         goToAreaRank = goToAreaRank,
                         goToPopulationRank = goToPopulationRank,
                         goToDensityRank = goToDensityRank,
+                        goToHome = goToHome,
                     )
                 }
             }

@@ -20,7 +20,8 @@ fun navComponent(
     goToCountries: () -> Unit,
     goToAreaRank: () -> Unit,
     goToPopulationRank: () -> Unit,
-    goToDensityRank: () -> Unit
+    goToDensityRank: () -> Unit,
+    goToHome: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -38,13 +39,13 @@ fun navComponent(
             CountryDetailScreen(entry.arguments?.getString("name") ?: "", goToCountries)
         }
         composable(route = CountryAppNavigation.CountryRankArea.name) {
-            CountryRankAreaScreen()
+            CountryRankAreaScreen(goToHome)
         }
         composable(route = CountryAppNavigation.CountryRankPopulation.name) {
-            CountryRankPopulationScreen()
+            CountryRankPopulationScreen(goToHome)
         }
         composable(route = CountryAppNavigation.CountryRankDensity.name) {
-            CountryRankDensityScreen()
+            CountryRankDensityScreen(goToHome)
         }
     }
 }

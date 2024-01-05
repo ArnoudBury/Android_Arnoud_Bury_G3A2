@@ -28,9 +28,10 @@ import com.example.countryapplication.R
 import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
+import com.example.countryapplication.ui.appBar.RankingTopBar
 
 @Composable
-fun CountryRankPopulationScreen(countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
+fun CountryRankPopulationScreen(goToHome: () -> Unit, countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
     val countryRankPopulationState by countryRankPopulationViewModel.uiState.collectAsState()
 
     val countryApiState = countryRankPopulationViewModel.countryApiState
@@ -38,14 +39,19 @@ fun CountryRankPopulationScreen(countryRankPopulationViewModel: CountryRankPopul
     when (countryApiState) {
         is CountryRankPopulationApiState.Loading -> LoadingScreen()
         is CountryRankPopulationApiState.Error -> ErrorScreen()
-        is CountryRankPopulationApiState.Success -> CountryRankPopulationComponent(countryRankPopulationState)
+        is CountryRankPopulationApiState.Success -> CountryRankPopulationComponent(countryRankPopulationState, goToHome)
     }
 }
 
 @Composable
-private fun CountryRankPopulationComponent(countryRankPopulationState: CountryRankPopulationState) {
+private fun CountryRankPopulationComponent(
+    countryRankPopulationState: CountryRankPopulationState,
+    goToHome: () -> Unit
+) {
     val lazyListState = rememberLazyListState()
-    LazyColumn(state = lazyListState) {
+
+    RankingTopBar(rankingTitle = "Country area ranking", goToHome)
+    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
         if (countryRankPopulationState.countries != null) {
             itemsIndexed(countryRankPopulationState.countries!!.sortedByDescending { it.population }) { index, country ->
                 CountryRankPopulationItem(rank = index + 1, country = country)

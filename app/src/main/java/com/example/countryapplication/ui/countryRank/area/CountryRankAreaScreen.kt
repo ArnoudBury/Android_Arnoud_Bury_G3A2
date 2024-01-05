@@ -28,9 +28,10 @@ import com.example.countryapplication.R
 import com.example.countryapplication.model.countryRank.area.CountryRankArea
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
+import com.example.countryapplication.ui.appBar.RankingTopBar
 
 @Composable
-fun CountryRankAreaScreen(countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory)) {
+fun CountryRankAreaScreen(goToHome: () -> Unit, countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory)) {
     val countryRankAreaState by countryRankAreaViewModel.uiState.collectAsState()
 
     val countryApiState = countryRankAreaViewModel.countryApiState
@@ -38,14 +39,19 @@ fun CountryRankAreaScreen(countryRankAreaViewModel: CountryRankAreaViewModel = v
     when (countryApiState) {
         is CountryRankAreaApiState.Loading -> LoadingScreen()
         is CountryRankAreaApiState.Error -> ErrorScreen()
-        is CountryRankAreaApiState.Success -> CountryRankAreaComponent(countryRankAreaState)
+        is CountryRankAreaApiState.Success -> CountryRankAreaComponent(countryRankAreaState, goToHome)
     }
 }
 
 @Composable
-private fun CountryRankAreaComponent(countryRankAreaState: CountryRankAreaState) {
+private fun CountryRankAreaComponent(
+    countryRankAreaState: CountryRankAreaState,
+    goToHome: () -> Unit
+) {
     val lazyListState = rememberLazyListState()
-    LazyColumn(state = lazyListState) {
+
+    RankingTopBar(rankingTitle = "Country area ranking", goToHome)
+    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
         if (countryRankAreaState.countries != null) {
             itemsIndexed(countryRankAreaState.countries!!.sortedByDescending { it.area }) { index, country ->
                 CountryRankAreaItem(rank = index + 1, country = country)
