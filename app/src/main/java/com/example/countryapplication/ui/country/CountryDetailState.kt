@@ -1,12 +1,13 @@
 package com.example.countryapplication.ui.country
 
-import com.example.countryapplication.model.country.detail.CountryDetail
+import com.example.countryapplication.model.country.Country
 
 data class CountryDetailState(
-    val country: CountryDetail?,
+    val countryDetails: Country? = null
 )
+
 sealed interface CountryDetailApiState {
-    data class Success(val country: CountryDetail) : CountryDetailApiState
+    object Success : CountryDetailApiState
     object Error : CountryDetailApiState
     object Loading : CountryDetailApiState
 }

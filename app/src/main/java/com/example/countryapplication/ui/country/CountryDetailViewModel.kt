@@ -11,16 +11,16 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.countryapplication.CountryApplication
 import com.example.countryapplication.data.CountryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class CountryDetailViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CountryDetailState(null))
-    val uiState: StateFlow<CountryDetailState> = _uiState.asStateFlow()
+    var uiState: StateFlow<CountryDetailState>
 
     var countryName: String = ""
         private set
@@ -28,22 +28,27 @@ class CountryDetailViewModel(private val countryRepository: CountryRepository) :
     var countryDetailApiState: CountryDetailApiState by mutableStateOf(CountryDetailApiState.Loading)
         private set
 
+    init {
+        uiState = MutableStateFlow(CountryDetailState())
+    }
+
     fun setCountryName(countryName: String) {
         this.countryName = countryName
         getCountry()
     }
 
     private fun getCountry() {
-        viewModelScope.launch {
-            try {
-                val country = countryRepository.getCountry(countryName)
-                _uiState.update {
-                    it.copy(country = country)
-                }
-                countryDetailApiState = CountryDetailApiState.Success(country)
-            } catch (e: IOException) {
-                countryDetailApiState = CountryDetailApiState.Error
-            }
+        try {
+            viewModelScope.launch { countryRepository.refresh() }
+            uiState = countryRepository.getCountry(countryName).map { CountryDetailState(it) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000L),
+                    initialValue = CountryDetailState(),
+                )
+            countryDetailApiState = CountryDetailApiState.Success
+        } catch (e: IOException) {
+            countryDetailApiState = CountryDetailApiState.Error
         }
     }
 

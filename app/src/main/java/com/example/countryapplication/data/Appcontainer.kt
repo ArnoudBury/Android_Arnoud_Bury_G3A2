@@ -1,6 +1,7 @@
 package com.example.countryapplication.data
 
 import android.content.Context
+import com.example.countryapplication.data.database.CountryDb
 import com.example.countryapplication.network.CountryApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -29,6 +30,6 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     }
 
     override val countryRepository: CountryRepository by lazy {
-        ApiCountryRepository(retrofitService)
+        CachingCountryRepository(CountryDb.getDatabase(context = context).countryDao(), retrofitService)
     }
 }

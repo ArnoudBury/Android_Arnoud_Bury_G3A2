@@ -1,5 +1,6 @@
 package com.example.countryapplication.ui.country
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,8 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
+import com.example.countryapplication.model.country.Country
 import com.example.countryapplication.model.country.Currency
-import com.example.countryapplication.model.country.detail.CountryDetail
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 
@@ -69,26 +70,29 @@ fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryD
     when (countryApiState) {
         is CountryDetailApiState.Loading -> LoadingScreen()
         is CountryDetailApiState.Error -> ErrorScreen()
-        is CountryDetailApiState.Success -> CountryDetailComponent(countryState, goToCountries)
+        is CountryDetailApiState.Success -> {
+            CountryDetailComponent(countryState, goToCountries)
+            Log.i("CountryDetail", countryState.countryDetails.toString())
+        }
     }
 }
 
 @Composable
 private fun CountryDetailComponent(
     countryState: CountryDetailState,
-    goToCountries: () -> Unit
+    goToCountries: () -> Unit,
 ) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
-        CountryDetailInfoName(country = countryState.country, goToCountries)
-        CountryDetailInfoSymbol(country = countryState.country)
-        CountryDetailInfo(country = countryState.country)
+        CountryDetailInfoName(country = countryState.countryDetails, goToCountries)
+        CountryDetailInfoSymbol(country = countryState.countryDetails)
+        CountryDetailInfo(country = countryState.countryDetails)
     }
 }
 
 @Composable
-fun CountryDetailInfoName(country: CountryDetail?, goToCountries: () -> Unit) {
+fun CountryDetailInfoName(country: Country?, goToCountries: () -> Unit) {
     if (country != null) {
         Column(
             modifier = Modifier
@@ -126,7 +130,7 @@ fun CountryDetailInfoName(country: CountryDetail?, goToCountries: () -> Unit) {
 }
 
 @Composable
-fun CountryDetailInfoSymbol(country: CountryDetail?) {
+fun CountryDetailInfoSymbol(country: Country?) {
     if (country != null) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -180,7 +184,7 @@ fun CountrySymbol(imageUrl: String, label: String) {
 }
 
 @Composable
-fun CountryDetailInfo(country: CountryDetail?) {
+fun CountryDetailInfo(country: Country?) {
     if (country != null) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),

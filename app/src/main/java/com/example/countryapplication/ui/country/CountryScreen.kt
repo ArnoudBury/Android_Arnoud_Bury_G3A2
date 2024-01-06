@@ -1,5 +1,6 @@
 package com.example.countryapplication.ui.country
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,35 +39,39 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.country.index.CountryIndex
+import com.example.countryapplication.model.country.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 
 @Composable
 fun CountryScreen(onCountryClick: (countryName: String) -> Unit, countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.Factory)) {
-    val countryState by countryViewModel.uiState.collectAsState()
-
     val countryApiState = countryViewModel.countryApiState
 
+    val countryState by countryViewModel.uiListState.collectAsState()
+
     var searchText by remember { mutableStateOf("") }
+    var filteredCountries: List<Country> by remember { mutableStateOf(listOf()) }
 
     when (countryApiState) {
         is CountryApiState.Loading -> LoadingScreen()
         is CountryApiState.Error -> ErrorScreen()
         is CountryApiState.Success -> {
-            var filteredCountries by remember { mutableStateOf(countryState.countries) }
-            CountryListComponent(filteredCountries, onCountryClick) {
-                    newSearchText ->
-                searchText = newSearchText
-                filteredCountries = applyFilter(countryState.countries, searchText)
+            if (searchText.isBlank()) {
+                filteredCountries = countryState.countries
             }
         }
+    }
+
+    CountryListComponent(filteredCountries, onCountryClick) {
+            newSearchText ->
+        searchText = newSearchText
+        filteredCountries = applyFilter(countryState.countries, searchText)
     }
 }
 
 @Composable
 private fun CountryListComponent(
-    countries: List<CountryIndex>?,
+    countries: List<Country>?,
     onCountryClick: (countryName: String) -> Unit,
     onSearchTextChanged: (String) -> Unit,
 ) {
@@ -167,13 +172,16 @@ fun SearchBar(onSearchTextChanged: (String) -> Unit) {
 }
 
 private fun applyFilter(
-    countries: List<CountryIndex>?,
+    countries: List<Country>,
     searchText: String,
-): List<CountryIndex>? {
-    if (countries != null && searchText.isNotBlank()) {
-        return countries.filter { country ->
+): List<Country> {
+    return if (searchText.isNotBlank()) {
+        Log.i("Test1", countries.size.toString())
+        countries.filter { country ->
             country.name.common.contains(searchText, ignoreCase = true)
         }
+    } else {
+        Log.i("Test2", countries.size.toString())
+        countries
     }
-    return countries
 }
