@@ -16,12 +16,18 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Test suite for verifying navigation within the application.
+ */
 @RunWith(AndroidJUnit4::class)
 class NavigationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     lateinit var navController: TestNavHostController
 
+    /**
+     * Sets up the application's navigation host for testing.
+     */
     @Before
     fun setupAppNavHost() {
         composeTestRule.setContent {
@@ -31,13 +37,19 @@ class NavigationTest {
         }
     }
 
+    /**
+     * Verifies the start destination of the app.
+     */
     @Test
     fun verifyStartDestination() {
         composeTestRule
-            .onNodeWithText("Home")
+            .onNodeWithText("Area")
             .assertIsDisplayed()
     }
 
+    /**
+     * Tests navigation to the country list screen.
+     */
     @Test
     fun navigateToCountryList() {
         composeTestRule
@@ -49,6 +61,9 @@ class NavigationTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Tests navigation to the country population ranking screen.
+     */
     @Test
     fun navigateToCountryRankPopulation() {
         composeTestRule
@@ -60,6 +75,9 @@ class NavigationTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Tests navigation to the country area ranking screen.
+     */
     @Test
     fun navigateToCountryRankArea() {
         composeTestRule
@@ -71,6 +89,9 @@ class NavigationTest {
             .assertIsDisplayed()
     }
 
+    /**
+     * Tests navigation to the country density ranking screen.
+     */
     @Test
     fun navigateToCountryRankDensity() {
         composeTestRule
