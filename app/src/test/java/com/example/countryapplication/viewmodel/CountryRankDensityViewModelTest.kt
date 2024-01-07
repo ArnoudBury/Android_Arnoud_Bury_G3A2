@@ -29,6 +29,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Test suite for [CountryRankDensityViewModel] responsible for handling country density rank related data and UI states.
+ */
 @ExperimentalCoroutinesApi
 class CountryRankDensityViewModelTest {
 
@@ -48,6 +51,10 @@ class CountryRankDensityViewModelTest {
         Dispatchers.resetMain()
     }
 
+    /**
+     * Fetches mock country data for testing purposes.
+     * @return a list of mock countries
+     */
     private fun getMockCountries(): List<Country> {
         return listOf(
             Country(
@@ -216,6 +223,9 @@ class CountryRankDensityViewModelTest {
         )
     }
 
+    /**
+     * Test to verify that 'getApiCountriesRankedDensity' updates UI list state and sets 'countryApiState' to Success.
+     */
     @Test
     fun `getApiCountriesRankedDensity should update uiListState and set countryApiState to Success`() =
         testScope.runTest {

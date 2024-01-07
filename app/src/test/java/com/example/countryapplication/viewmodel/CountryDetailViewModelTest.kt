@@ -29,6 +29,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Test suite for [CountryDetailViewModel] responsible for handling country detail related data and UI states.
+ */
 @ExperimentalCoroutinesApi
 class CountryDetailViewModelTest {
 
@@ -48,6 +51,9 @@ class CountryDetailViewModelTest {
         Dispatchers.resetMain()
     }
 
+    /**
+     * Test to verify that 'getCountry' updates UI state and sets 'countryDetailApiState' to Success.
+     */
     @Test
     fun `getCountry should update uiState and set countryDetailApiState to Success`() =
         testScope.runTest {
