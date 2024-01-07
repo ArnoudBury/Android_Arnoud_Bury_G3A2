@@ -11,6 +11,9 @@ import com.example.countryapplication.model.NativeName
 import junit.framework.TestCase
 import org.junit.Test
 
+/**
+ * Test suite for the domain logic related to Country objects.
+ */
 class DomainCountryTest {
 
     val countryName = Name(
@@ -72,6 +75,9 @@ class DomainCountryTest {
 
     val tld = listOf(".be")
 
+    /**
+     * Tests the constructor of the [Country] class to ensure proper initialization of its properties.
+     */
     @Test
     fun testDomainCountryConstructor() {
         val country = Country(
@@ -92,6 +98,7 @@ class DomainCountryTest {
             tld = tld,
         )
 
+        // Assertions to verify the correctness of the initialization
         TestCase.assertEquals(30528.0, country.area)
         TestCase.assertEquals(car, country.car)
         TestCase.assertEquals(coatOfArms, country.coatOfArms)
