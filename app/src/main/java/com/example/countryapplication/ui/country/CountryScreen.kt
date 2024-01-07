@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
@@ -90,7 +89,7 @@ fun CountryListComponent(
 ) {
     val lazyListState = rememberLazyListState()
     Box(
-        modifier = Modifier.height(80.dp).background(MaterialTheme.colorScheme.primary).padding(
+        modifier = Modifier.height(dimensionResource(R.dimen.country_list_component_height)).background(MaterialTheme.colorScheme.primary).padding(
             horizontal = dimensionResource(R.dimen.standard_padding),
             vertical = dimensionResource(R.dimen.small_padding),
         ),
@@ -98,7 +97,7 @@ fun CountryListComponent(
     ) {
         SearchBar(onSearchTextChanged = onSearchTextChanged)
     }
-    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 80.dp)) {
+    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = dimensionResource(R.dimen.country_list_component_height))) {
         if (countries != null) {
             items(countries.sortedBy { it.name.common }) {
                 CountryIndexCard(
@@ -130,11 +129,11 @@ fun CountryIndexCard(
 ) {
     Surface(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(dimensionResource(R.dimen.small_padding))
             .fillMaxWidth()
-            .height(60.dp)
+            .height(dimensionResource(R.dimen.country_list_card_height))
             .clickable { onCountryClick(officialName) },
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(dimensionResource(R.dimen.small_padding)),
     ) {
         Row(
             modifier = Modifier
@@ -149,12 +148,12 @@ fun CountryIndexCard(
                 ),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
+                    .width(dimensionResource(R.dimen.country_list_card_image_width))
                     .aspectRatio(1f),
                 contentScale = ContentScale.FillHeight,
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.standard_padding)))
 
             Box(
                 modifier = Modifier.weight(1f),
@@ -164,7 +163,7 @@ fun CountryIndexCard(
                     text = countryName,
                     color = MaterialTheme.colorScheme.onTertiary,
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.small_padding)),
                 )
             }
         }
@@ -192,7 +191,7 @@ fun SearchBar(onSearchTextChanged: (String) -> Unit) {
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(32.dp))
+            .clip(RoundedCornerShape(dimensionResource(R.dimen.large_padding)))
             .background(MaterialTheme.colorScheme.onPrimary),
     )
 }

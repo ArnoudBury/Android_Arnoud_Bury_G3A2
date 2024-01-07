@@ -48,7 +48,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
@@ -68,7 +67,7 @@ import com.example.countryapplication.ui.LoadingScreen
 fun CountryDetailScreen(
     countryName: String,
     goToCountries: () -> Unit,
-    countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)
+    countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory),
 ) {
     // Collecting the state of country details from the ViewModel
     val countryState by countryDetailViewModel.uiState.collectAsState()
@@ -133,7 +132,7 @@ fun CountryDetailInfoName(country: Country?, goToCountries: () -> Unit) {
             ) {
                 IconButton(
                     onClick = goToCountries,
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier.size(dimensionResource(R.dimen.detail_screen_icon_size)),
 
                 ) {
                     Icon(
@@ -200,12 +199,12 @@ fun CountrySymbol(imageUrl: String, label: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .width(125.dp)
-            .padding(8.dp),
+            .width(dimensionResource(R.dimen.country_symbol_width))
+            .padding(dimensionResource(R.dimen.small_padding)),
     ) {
         Box(
             modifier = Modifier
-                .width(125.dp)
+                .width(dimensionResource(R.dimen.country_symbol_width))
                 .aspectRatio(1f),
         ) {
             Image(
@@ -233,7 +232,7 @@ fun CountryDetailInfo(country: Country?) {
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(dimensionResource(R.dimen.standard_padding)),
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.heightIn(max = 1000.dp),
+            modifier = Modifier.heightIn(max = dimensionResource(R.dimen.country_detail_info_max_height)),
         ) {
             item {
                 CountryInfoItem(
@@ -351,10 +350,10 @@ fun CountryInfoItem(key: String, value: String, icon: ImageVector) {
         Icon(
             imageVector = icon,
             contentDescription = key,
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(dimensionResource(R.dimen.detail_screen_icon_size_small)),
             tint = Color.Black,
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(dimensionResource(R.dimen.small_padding)))
         Column {
             Text(text = key, style = MaterialTheme.typography.bodyLarge)
             Text(text = value, style = MaterialTheme.typography.bodyMedium)

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="large_padding">32dp</dimen>
     <dimen name="standard_padding">16dp</dimen>
-    <dimen name="large_padding">24dp</dimen>
     <dimen name="small_padding">8dp</dimen>
+    <dimen name="ranking_top_bar_height">60dp</dimen>
+    <dimen name="detail_screen_icon_size">48dp</dimen>
+    <dimen name="country_symbol_width">125dp</dimen>
+    <dimen name="country_detail_info_max_height">1000dp</dimen>
+    <dimen name="detail_screen_icon_size_small">32dp</dimen>
+    <dimen name="country_list_component_height">80dp</dimen>
+    <dimen name="country_list_card_height">60dp</dimen>
+    <dimen name="country_list_card_image_width">100dp</dimen>
+    <dimen name="country_rank_item_height">50dp</dimen>
+    <dimen name="country_rank_item_text_width">40dp</dimen>
+    <dimen name="country_rank_item_image_width">46dp</dimen>
+    <dimen name="country_rank_item_image_height">40dp</dimen>
+    <dimen name="country_rank_item_image_border">1dp</dimen>
 </resources>

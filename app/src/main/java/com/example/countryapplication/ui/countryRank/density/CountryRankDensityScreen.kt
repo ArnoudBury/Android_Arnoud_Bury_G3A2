@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
@@ -44,7 +43,7 @@ import kotlin.math.roundToInt
 @Composable
 fun CountryRankDensityScreen(
     goToHome: () -> Unit,
-    countryRankDensityViewModel: CountryRankDensityViewModel = viewModel(factory = CountryRankDensityViewModel.Factory)
+    countryRankDensityViewModel: CountryRankDensityViewModel = viewModel(factory = CountryRankDensityViewModel.Factory),
 ) {
     // Collect the UI state using the provided ViewModel
     val countryRankPopulationState by countryRankDensityViewModel.uiListState.collectAsState()
@@ -76,13 +75,13 @@ fun CountryRankDensityScreen(
 @Composable
 fun CountryRankDensityComponent(
     countries: List<Country>,
-    goToHome: () -> Unit
+    goToHome: () -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
 
     // Display the ranking top bar and the list of ranked countries
     RankingTopBar(rankingTitle = "Country density ranking", goToHome)
-    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
+    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = dimensionResource(R.dimen.ranking_top_bar_height))) {
         itemsIndexed(countries.sortedByDescending { it.population / it.area }) { index, country ->
             CountryRankDensityItem(rank = index + 1, country = country)
         }
@@ -101,20 +100,20 @@ fun CountryRankDensityItem(rank: Int, country: Country) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(dimensionResource(R.dimen.country_rank_item_height))
             .padding(vertical = dimensionResource(R.dimen.small_padding)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(rank.toString(), modifier = Modifier.width(40.dp), textAlign = TextAlign.Center)
+        Text(rank.toString(), modifier = Modifier.width(dimensionResource(R.dimen.country_rank_item_text_width)), textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.small_padding)))
         Image(
             painter = rememberImagePainter(data = country.flags.png),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .width(46.dp)
-                .height(40.dp)
-                .border(1.dp, Color.Black),
+                .width(dimensionResource(R.dimen.country_rank_item_image_width))
+                .height(dimensionResource(R.dimen.country_rank_item_image_height))
+                .border(dimensionResource(R.dimen.country_rank_item_image_border), Color.Black),
         )
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.small_padding)))
         Text(country.name.common)
