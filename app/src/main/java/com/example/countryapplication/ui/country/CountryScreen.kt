@@ -83,7 +83,7 @@ fun CountryScreen(onCountryClick: (countryName: String) -> Unit, countryViewMode
  * @param onSearchTextChanged Callback function when the search text changes.
  */
 @Composable
-private fun CountryListComponent(
+fun CountryListComponent(
     countries: List<Country>?,
     onCountryClick: (countryName: String) -> Unit,
     onSearchTextChanged: (String) -> Unit,

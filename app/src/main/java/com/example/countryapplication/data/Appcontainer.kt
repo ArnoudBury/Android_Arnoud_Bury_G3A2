@@ -1,10 +1,12 @@
 package com.example.countryapplication.data
 
+import NetworkConnectionInterceptor
 import android.content.Context
 import com.example.countryapplication.data.database.CountryDb
 import com.example.countryapplication.network.CountryApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -25,6 +27,11 @@ interface AppContainer {
  */
 class DefaultAppContainer(private val context: Context) : AppContainer {
 
+    private val networkCheck = NetworkConnectionInterceptor(context)
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(networkCheck)
+        .build()
+
     // Base URL for the country API
     private val baseUrl = "https://restcountries.com/v3.1/"
 
@@ -37,6 +44,7 @@ class DefaultAppContainer(private val context: Context) : AppContainer {
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(baseUrl)
+        .client(client)
         .build()
 
     // Retrofit service for country API

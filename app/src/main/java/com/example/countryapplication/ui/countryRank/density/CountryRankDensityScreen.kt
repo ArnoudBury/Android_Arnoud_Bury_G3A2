@@ -74,7 +74,7 @@ fun CountryRankDensityScreen(
  * @param goToHome Callback function to navigate to the home screen.
  */
 @Composable
-private fun CountryRankDensityComponent(
+fun CountryRankDensityComponent(
     countries: List<Country>,
     goToHome: () -> Unit
 ) {

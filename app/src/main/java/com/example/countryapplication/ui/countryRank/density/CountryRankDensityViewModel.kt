@@ -53,7 +53,7 @@ class CountryRankDensityViewModel(private val countryRepository: CountryReposito
     /**
      * Fetches density-based country rankings from the API and updates the UI states accordingly.
      */
-    private fun getApiCountriesRankedDensity() {
+    fun getApiCountriesRankedDensity() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
             uiListState = countryRepository.getCountries().map { CountryRankDensityListState(it) }

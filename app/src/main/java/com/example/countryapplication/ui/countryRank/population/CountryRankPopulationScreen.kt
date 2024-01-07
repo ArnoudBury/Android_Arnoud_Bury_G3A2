@@ -73,7 +73,7 @@ fun CountryRankPopulationScreen(
  * @param goToHome Callback function to navigate to the home screen.
  */
 @Composable
-private fun CountryRankPopulationComponent(
+fun CountryRankPopulationComponent(
     countries: List<Country>,
     goToHome: () -> Unit,
 ) {

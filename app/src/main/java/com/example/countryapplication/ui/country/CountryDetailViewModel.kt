@@ -53,13 +53,13 @@ class CountryDetailViewModel(private val countryRepository: CountryRepository) :
      */
     fun setCountryName(countryName: String) {
         this.countryName = countryName
-        getCountry()
+        getCountry(this.countryName)
     }
 
     /**
      * Fetches country details based on the provided country name.
      */
-    private fun getCountry() {
+    fun getCountry(countryName: String) {
         try {
             viewModelScope.launch { countryRepository.refresh() }
             uiState = countryRepository.getCountry(countryName).map { CountryDetailState(it) }

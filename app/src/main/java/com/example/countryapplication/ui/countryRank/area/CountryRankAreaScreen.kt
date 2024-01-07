@@ -67,7 +67,7 @@ fun CountryRankAreaScreen(
  * @param goToHome Navigation callback to return to the home screen.
  */
 @Composable
-private fun CountryRankAreaComponent(
+fun CountryRankAreaComponent(
     countries: List<Country>,
     goToHome: () -> Unit,
 ) {

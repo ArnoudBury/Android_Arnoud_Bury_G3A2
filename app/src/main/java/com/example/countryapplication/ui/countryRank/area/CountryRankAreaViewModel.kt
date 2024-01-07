@@ -51,7 +51,7 @@ class CountryRankAreaViewModel(private val countryRepository: CountryRepository)
     /**
      * Fetches area-based country rankings from the API and updates the UI states accordingly.
      */
-    private fun getApiCountriesRankedArea() {
+    fun getApiCountriesRankedArea() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
             uiListState = countryRepository.getCountries().map { CountryRankAreaListState(it) }

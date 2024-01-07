@@ -46,7 +46,7 @@ class CountryViewModel(private val countryRepository: CountryRepository) : ViewM
      * Fetches the list of countries from the API.
      * Handles the UI state updates based on API response.
      */
-    private fun getApiCountries() {
+    fun getApiCountries() {
         try {
             viewModelScope.launch {
                 countryRepository.refresh()

@@ -53,7 +53,7 @@ class CountryRankPopulationViewModel(private val countryRepository: CountryRepos
     /**
      * Fetches population-based country rankings from the API and updates the UI states accordingly.
      */
-    private fun getApiCountriesRankedPopulation() {
+    fun getApiCountriesRankedPopulation() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
             uiListState = countryRepository.getCountries().map { CountryRankPopulationListState(it) }
