@@ -15,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
+import com.example.countryapplication.model.country.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
@@ -33,36 +36,38 @@ import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 
 @Composable
 fun CountryRankPopulationScreen(goToHome: () -> Unit, countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
-    val countryRankPopulationState by countryRankPopulationViewModel.uiState.collectAsState()
+    val countryRankPopulationState by countryRankPopulationViewModel.uiListState.collectAsState()
 
     val countryApiState = countryRankPopulationViewModel.countryApiState
+    var rankedCountries: List<Country> by remember { mutableStateOf(listOf()) }
 
     when (countryApiState) {
         is CountryRankPopulationApiState.Loading -> LoadingScreen()
         is CountryRankPopulationApiState.Error -> ErrorScreen()
-        is CountryRankPopulationApiState.Success -> CountryRankPopulationComponent(countryRankPopulationState, goToHome)
-    }
-}
-
-@Composable
-private fun CountryRankPopulationComponent(
-    countryRankPopulationState: CountryRankPopulationState,
-    goToHome: () -> Unit
-) {
-    val lazyListState = rememberLazyListState()
-
-    RankingTopBar(rankingTitle = "Country area ranking", goToHome)
-    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
-        if (countryRankPopulationState.countries != null) {
-            itemsIndexed(countryRankPopulationState.countries!!.sortedByDescending { it.population }) { index, country ->
-                CountryRankPopulationItem(rank = index + 1, country = country)
-            }
+        is CountryRankPopulationApiState.Success -> {
+            rankedCountries = countryRankPopulationState.countries
+            CountryRankPopulationComponent(rankedCountries, goToHome)
         }
     }
 }
 
 @Composable
-fun CountryRankPopulationItem(rank: Int, country: CountryRankPopulation) {
+private fun CountryRankPopulationComponent(
+    countries: List<Country>,
+    goToHome: () -> Unit,
+) {
+    val lazyListState = rememberLazyListState()
+
+    RankingTopBar(rankingTitle = "Country population ranking", goToHome)
+    LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
+        itemsIndexed(countries.sortedByDescending { it.population }) { index, country ->
+            CountryRankPopulationItem(rank = index + 1, country = country)
+        }
+    }
+}
+
+@Composable
+fun CountryRankPopulationItem(rank: Int, country: Country) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

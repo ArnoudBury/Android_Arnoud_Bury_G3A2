@@ -11,36 +11,43 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.countryapplication.CountryApplication
 import com.example.countryapplication.data.CountryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class CountryRankPopulationViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CountryRankPopulationState(null))
+    private val _uiState = MutableStateFlow(CountryRankPopulationState())
     val uiState: StateFlow<CountryRankPopulationState> = _uiState.asStateFlow()
 
+    var uiListState: StateFlow<CountryRankPopulationListState>
+
     var countryApiState: CountryRankPopulationApiState by mutableStateOf(
-        CountryRankPopulationApiState.Loading)
+        CountryRankPopulationApiState.Loading,
+    )
         private set
 
     init {
+        uiListState = MutableStateFlow(CountryRankPopulationListState())
         getApiCountriesRankedPopulation()
     }
 
     private fun getApiCountriesRankedPopulation() {
-        viewModelScope.launch {
-            try {
-                val listResult = countryRepository.getCountriesRankedPopulation()
-                _uiState.update {
-                    it.copy(countries = listResult)
-                }
-                countryApiState = CountryRankPopulationApiState.Success(listResult)
-            } catch (e: IOException) {
-                countryApiState = CountryRankPopulationApiState.Error
-            }
+        try {
+            viewModelScope.launch { countryRepository.refresh() }
+            uiListState = countryRepository.getCountries().map { CountryRankPopulationListState(it) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000L),
+                    initialValue = CountryRankPopulationListState(),
+                )
+            countryApiState = CountryRankPopulationApiState.Success
+        } catch (e: IOException) {
+            countryApiState = CountryRankPopulationApiState.Error
         }
     }
     companion object {

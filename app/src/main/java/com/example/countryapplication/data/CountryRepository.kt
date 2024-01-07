@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.countryapplication.data.database.CountryDao
 import com.example.countryapplication.data.database.asDbCountry
 import com.example.countryapplication.data.database.asDomainCountry
-import com.example.countryapplication.data.database.asDomainTasks
 import com.example.countryapplication.model.country.Country
 import com.example.countryapplication.model.country.detail.asDomainObjects
 import com.example.countryapplication.model.countryRank.area.CountryRankArea
@@ -42,7 +41,7 @@ class CachingCountryRepository(
 ) : CountryRepository {
     override fun getCountries(): Flow<List<Country>> {
         return countryDao.getAllItems().map {
-            it.asDomainTasks()
+            it.asDomainCountry()
         }.onEach {
             if (it.isEmpty()) {
                 refresh()

@@ -15,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.countryRank.area.CountryRankArea
+import com.example.countryapplication.model.country.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
@@ -33,36 +36,38 @@ import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 
 @Composable
 fun CountryRankAreaScreen(goToHome: () -> Unit, countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory)) {
-    val countryRankAreaState by countryRankAreaViewModel.uiState.collectAsState()
+    val countryRankAreaState by countryRankAreaViewModel.uiListState.collectAsState()
 
     val countryApiState = countryRankAreaViewModel.countryApiState
+    var rankedCountries: List<Country> by remember { mutableStateOf(listOf()) }
 
     when (countryApiState) {
         is CountryRankAreaApiState.Loading -> LoadingScreen()
         is CountryRankAreaApiState.Error -> ErrorScreen()
-        is CountryRankAreaApiState.Success -> CountryRankAreaComponent(countryRankAreaState, goToHome)
+        is CountryRankAreaApiState.Success -> {
+            rankedCountries = countryRankAreaState.countries
+            CountryRankAreaComponent(rankedCountries, goToHome)
+        }
     }
 }
 
 @Composable
 private fun CountryRankAreaComponent(
-    countryRankAreaState: CountryRankAreaState,
+    countries: List<Country>,
     goToHome: () -> Unit
 ) {
     val lazyListState = rememberLazyListState()
 
     RankingTopBar(rankingTitle = "Country area ranking", goToHome)
     LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
-        if (countryRankAreaState.countries != null) {
-            itemsIndexed(countryRankAreaState.countries!!.sortedByDescending { it.area }) { index, country ->
-                CountryRankAreaItem(rank = index + 1, country = country)
-            }
+        itemsIndexed(countries.sortedByDescending { it.area }) { index, country ->
+            CountryRankAreaItem(rank = index + 1, country = country)
         }
     }
 }
 
 @Composable
-fun CountryRankAreaItem(rank: Int, country: CountryRankArea) {
+fun CountryRankAreaItem(rank: Int, country: Country) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

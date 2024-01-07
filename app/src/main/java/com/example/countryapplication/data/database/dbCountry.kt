@@ -119,7 +119,7 @@ fun Country.asDbCountry(): DbCountry {
         car = this.car,
     )
 }
-fun List<DbCountry>.asDomainTasks(): List<Country> {
+fun List<DbCountry>.asDomainCountry(): List<Country> {
     var taskList = this.map {
         Country(
             name = Name(
