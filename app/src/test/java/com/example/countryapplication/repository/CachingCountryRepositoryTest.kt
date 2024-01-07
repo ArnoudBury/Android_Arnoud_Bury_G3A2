@@ -25,6 +25,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
+/**
+ * Test suite for [CachingCountryRepository] class responsible for country data retrieval and manipulation.
+ */
 class CachingCountryRepositoryTest {
 
     @Mock
@@ -41,6 +44,9 @@ class CachingCountryRepositoryTest {
         MockitoAnnotations.openMocks(this)
     }
 
+    /**
+     * Test to verify the retrieval of all items from the repository.
+     */
     @Test
     fun `test getAllItems`() = runBlocking {
         val expectedDomainCountryList = listOf(
@@ -220,6 +226,9 @@ class CachingCountryRepositoryTest {
     }
 
 
+    /**
+     * Test to verify the retrieval of a specific item from the repository.
+     */
     @Test
     fun `test getItem`() = runBlocking {
         val expectedDomainCountry = Country(
@@ -286,6 +295,9 @@ class CachingCountryRepositoryTest {
         assertEquals(expectedDomainCountry, result)
     }
 
+    /**
+     * Test to verify the insertion of a country into the repository.
+     */
     @Test
     fun `test insert`() = runTest {
         val domainCountry = Country(
@@ -353,6 +365,9 @@ class CachingCountryRepositoryTest {
     }
 
 
+    /**
+     * Test to verify the update of a country in the repository.
+     */
     @Test
     fun `test update`() = runBlocking {
         val domainCountry = Country(
@@ -419,6 +434,9 @@ class CachingCountryRepositoryTest {
     }
 
 
+    /**
+     * Test to verify the deletion of a country from the repository.
+     */
     @Test
     fun `test delete`() = runBlocking {
         val domainCountry = Country(
