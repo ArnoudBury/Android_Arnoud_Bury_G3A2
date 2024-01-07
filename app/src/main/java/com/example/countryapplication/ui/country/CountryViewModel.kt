@@ -20,12 +20,20 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+/**
+ * ViewModel responsible for managing country-related data and state within the application.
+ *
+ * @param countryRepository The repository handling country data retrieval and manipulation.
+ */
 class CountryViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CountryState())
     var uiListState: StateFlow<CountryListState>
     val uiState: StateFlow<CountryState> = _uiState.asStateFlow()
 
+    /**
+     * Represents the state of the API call for country data.
+     */
     var countryApiState: CountryApiState by mutableStateOf(CountryApiState.Loading)
         private set
 
@@ -34,6 +42,10 @@ class CountryViewModel(private val countryRepository: CountryRepository) : ViewM
         getApiCountries()
     }
 
+    /**
+     * Fetches the list of countries from the API.
+     * Handles the UI state updates based on API response.
+     */
     private fun getApiCountries() {
         try {
             viewModelScope.launch {
@@ -52,6 +64,9 @@ class CountryViewModel(private val countryRepository: CountryRepository) : ViewM
     }
 
     companion object {
+        /**
+         * Factory to create instances of [CountryViewModel].
+         */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as CountryApplication)
@@ -63,3 +78,4 @@ class CountryViewModel(private val countryRepository: CountryRepository) : ViewM
         }
     }
 }
+

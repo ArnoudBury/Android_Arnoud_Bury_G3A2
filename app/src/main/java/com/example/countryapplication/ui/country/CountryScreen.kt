@@ -39,10 +39,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.country.Country
+import com.example.countryapplication.model.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 
+/**
+ * Composable function for displaying a list of countries.
+ *
+ * @param onCountryClick Callback function when a country is clicked.
+ * @param countryViewModel ViewModel used for managing country-related data.
+ */
 @Composable
 fun CountryScreen(onCountryClick: (countryName: String) -> Unit, countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.Factory)) {
     val countryApiState = countryViewModel.countryApiState
@@ -69,6 +75,13 @@ fun CountryScreen(onCountryClick: (countryName: String) -> Unit, countryViewMode
     }
 }
 
+/**
+ * Composable function representing the list of countries.
+ *
+ * @param countries List of countries to display.
+ * @param onCountryClick Callback function when a country is clicked.
+ * @param onSearchTextChanged Callback function when the search text changes.
+ */
 @Composable
 private fun CountryListComponent(
     countries: List<Country>?,
@@ -100,6 +113,14 @@ private fun CountryListComponent(
     }
 }
 
+/**
+ * Composable function representing an individual country card in the list.
+ *
+ * @param countryName Name of the country.
+ * @param imageUrl URL for the country's flag image.
+ * @param officialName Official name of the country.
+ * @param onCountryClick Callback function when the country card is clicked.
+ */
 @Composable
 fun CountryIndexCard(
     countryName: String,
@@ -150,6 +171,11 @@ fun CountryIndexCard(
     }
 }
 
+/**
+ * Composable function for a search bar to filter country list.
+ *
+ * @param onSearchTextChanged Callback function triggered on search text change.
+ */
 @Composable
 fun SearchBar(onSearchTextChanged: (String) -> Unit) {
     var text by remember { mutableStateOf("") }
@@ -171,6 +197,13 @@ fun SearchBar(onSearchTextChanged: (String) -> Unit) {
     )
 }
 
+/**
+ * Function to filter the list of countries based on a search query.
+ *
+ * @param countries List of countries to filter.
+ * @param searchText Text used for filtering.
+ * @return Filtered list of countries based on the search query.
+ */
 private fun applyFilter(
     countries: List<Country>,
     searchText: String,

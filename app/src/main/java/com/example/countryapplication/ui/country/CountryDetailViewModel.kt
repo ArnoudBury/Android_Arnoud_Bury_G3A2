@@ -18,13 +18,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+/**
+ * ViewModel class responsible for handling country details.
+ *
+ * @param countryRepository Repository for managing country-related data.
+ */
 class CountryDetailViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
+    /**
+     * StateFlow for observing the country detail state.
+     */
     var uiState: StateFlow<CountryDetailState>
 
+    /**
+     * Name of the country being observed.
+     */
     var countryName: String = ""
         private set
 
+    /**
+     * Represents the API state for country detail.
+     */
     var countryDetailApiState: CountryDetailApiState by mutableStateOf(CountryDetailApiState.Loading)
         private set
 
@@ -32,11 +46,19 @@ class CountryDetailViewModel(private val countryRepository: CountryRepository) :
         uiState = MutableStateFlow(CountryDetailState())
     }
 
+    /**
+     * Sets the country name and triggers fetching country details.
+     *
+     * @param countryName Name of the country to retrieve details for.
+     */
     fun setCountryName(countryName: String) {
         this.countryName = countryName
         getCountry()
     }
 
+    /**
+     * Fetches country details based on the provided country name.
+     */
     private fun getCountry() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
@@ -53,6 +75,9 @@ class CountryDetailViewModel(private val countryRepository: CountryRepository) :
     }
 
     companion object {
+        /**
+         * Factory for instantiating the CountryDetailViewModel.
+         */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CountryApplication)
@@ -64,3 +89,4 @@ class CountryDetailViewModel(private val countryRepository: CountryRepository) :
         }
     }
 }
+

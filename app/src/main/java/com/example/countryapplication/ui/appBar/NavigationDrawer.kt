@@ -12,6 +12,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import com.example.countryapplication.ui.navigation.CountryAppNavigation
 
+/**
+ * Composable function that displays content for the navigation drawer in the country app.
+ *
+ * @param selectedDestination The currently selected navigation destination.
+ * @param onTabPressed Callback function invoked when a navigation tab is pressed.
+ * @param modifier Optional modifier for the navigation drawer content.
+ */
 @Composable
 fun NavigationDrawerContent(
     selectedDestination: NavDestination?,
@@ -46,3 +53,4 @@ fun NavigationDrawerContent(
         }
     }
 }
+

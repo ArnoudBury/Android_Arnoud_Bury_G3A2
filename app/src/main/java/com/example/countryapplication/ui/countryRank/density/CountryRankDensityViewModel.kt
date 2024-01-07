@@ -19,13 +19,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+/**
+ * ViewModel responsible for managing density-based country rankings in the Country Application.
+ *
+ * @property countryRepository The repository handling country-related data operations.
+ */
 class CountryRankDensityViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
+    /**
+     * Represents the current UI state for density-based country rankings.
+     */
     private val _uiState = MutableStateFlow(CountryRankDensityState())
     val uiState: StateFlow<CountryRankDensityState> = _uiState.asStateFlow()
 
+    /**
+     * Represents the current state of the country list UI.
+     */
     var uiListState: StateFlow<CountryRankDensityListState>
 
+    /**
+     * Represents the API state for density-based country rankings.
+     */
     var countryApiState: CountryRankDensityApiState by mutableStateOf(
         CountryRankDensityApiState.Loading,
     )
@@ -33,10 +47,13 @@ class CountryRankDensityViewModel(private val countryRepository: CountryReposito
 
     init {
         uiListState = MutableStateFlow(CountryRankDensityListState())
-        getApiCountriesRankedPopulation()
+        getApiCountriesRankedDensity()
     }
 
-    private fun getApiCountriesRankedPopulation() {
+    /**
+     * Fetches density-based country rankings from the API and updates the UI states accordingly.
+     */
+    private fun getApiCountriesRankedDensity() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
             uiListState = countryRepository.getCountries().map { CountryRankDensityListState(it) }
@@ -50,10 +67,17 @@ class CountryRankDensityViewModel(private val countryRepository: CountryReposito
             countryApiState = CountryRankDensityApiState.Error
         }
     }
+
     companion object {
+        /**
+         * Factory to create instances of [CountryRankDensityViewModel] using [viewModelFactory].
+         */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CountryApplication)
+                val application = (
+                    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as CountryApplication
+                    )
                 val countryRepository = application.container.countryRepository
                 CountryRankDensityViewModel(
                     countryRepository = countryRepository,

@@ -1,33 +1,33 @@
 package com.example.countryapplication.network
 
-import com.example.countryapplication.model.country.detail.CountryDetail
-import com.example.countryapplication.model.countryRank.area.CountryRankArea
-import com.example.countryapplication.model.countryRank.density.CountryRankDensity
-import com.example.countryapplication.model.countryRank.population.CountryRankPopulation
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.http.GET
-import retrofit2.http.Path
 
+/**
+ * Interface defining API endpoints related to country data retrieval.
+ */
 interface CountryApiService {
+    /**
+     * Retrieves a list of countries with specific fields using a suspend function.
+     *
+     * @return List of [ApiCountry] objects retrieved from the API.
+     */
     @GET("all?fields=name,flags,coatOfArms,population,area,capital,languages,region,timezones,currencies,independent,unMember,tld,idd,car")
-    suspend fun getCountries(): List<CountryDetail>
-
-    @GET("name/{name}?fields=name,flags,coatOfArms,population,area,capital,languages,region,timezones,currencies,independent,unMember,tld,idd,car")
-    suspend fun getCountry(
-        @Path("name") countryName: String,
-    ): List<CountryDetail>
-
-    @GET("all?fields=name,area,flags")
-    suspend fun getCountriesRankedArea(): List<CountryRankArea>
-
-    @GET("all?fields=name,population,flags")
-    suspend fun getCountriesRankedPopulation(): List<CountryRankPopulation>
-
-    @GET("all?fields=name,population,area,flags")
-    suspend fun getCountriesRankedDensity(): List<CountryRankDensity>
+    suspend fun getCountries(): List<ApiCountry>
 }
 
-fun CountryApiService.getCountriesAsFlow(): Flow<List<CountryDetail>> = flow {
-    emit(getCountries())
+/**
+ * Converts the synchronous [getCountries] function into a [Flow] for asynchronous data retrieval.
+ *
+ * @return Flow emitting a list of [ApiCountry] objects or handling exceptions if any occur.
+ */
+fun CountryApiService.getCountriesAsFlow(): Flow<List<ApiCountry>> = flow {
+    try {
+        emit(getCountries())
+    } catch (e: Exception) {
+        Log.e("API", "getCountriesAsFlow: " + e.stackTraceToString())
+    }
 }
+

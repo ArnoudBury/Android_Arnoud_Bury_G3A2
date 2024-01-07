@@ -19,13 +19,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+/**
+ * ViewModel responsible for managing population-based country rankings in the Country Application.
+ *
+ * @property countryRepository The repository handling country-related data operations.
+ */
 class CountryRankPopulationViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
+    /**
+     * Represents the current UI state for population-based country rankings.
+     */
     private val _uiState = MutableStateFlow(CountryRankPopulationState())
     val uiState: StateFlow<CountryRankPopulationState> = _uiState.asStateFlow()
 
+    /**
+     * Represents the current state of the country list UI.
+     */
     var uiListState: StateFlow<CountryRankPopulationListState>
 
+    /**
+     * Represents the API state for population-based country rankings.
+     */
     var countryApiState: CountryRankPopulationApiState by mutableStateOf(
         CountryRankPopulationApiState.Loading,
     )
@@ -36,6 +50,9 @@ class CountryRankPopulationViewModel(private val countryRepository: CountryRepos
         getApiCountriesRankedPopulation()
     }
 
+    /**
+     * Fetches population-based country rankings from the API and updates the UI states accordingly.
+     */
     private fun getApiCountriesRankedPopulation() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
@@ -50,10 +67,17 @@ class CountryRankPopulationViewModel(private val countryRepository: CountryRepos
             countryApiState = CountryRankPopulationApiState.Error
         }
     }
+
     companion object {
+        /**
+         * Factory to create instances of [CountryRankPopulationViewModel] using [viewModelFactory].
+         */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CountryApplication)
+                val application = (
+                    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as CountryApplication
+                    )
                 val countryRepository = application.container.countryRepository
                 CountryRankPopulationViewModel(
                     countryRepository = countryRepository,
@@ -62,3 +86,4 @@ class CountryRankPopulationViewModel(private val countryRepository: CountryRepos
         }
     }
 }
+

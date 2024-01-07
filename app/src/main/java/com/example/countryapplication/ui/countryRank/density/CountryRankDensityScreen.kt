@@ -28,30 +28,51 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.country.Country
+import com.example.countryapplication.model.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
 import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 import kotlin.math.roundToInt
 
+/**
+ * Composable function representing the screen displaying density-based country rankings.
+ *
+ * @param goToHome Callback function to navigate to the home screen.
+ * @param countryRankDensityViewModel The ViewModel handling density-based country rankings.
+ */
 @Composable
-fun CountryRankDensityScreen(goToHome: () -> Unit, countryRankDensityViewModel: CountryRankDensityViewModel = viewModel(factory = CountryRankDensityViewModel.Factory)) {
+fun CountryRankDensityScreen(
+    goToHome: () -> Unit,
+    countryRankDensityViewModel: CountryRankDensityViewModel = viewModel(factory = CountryRankDensityViewModel.Factory)
+) {
+    // Collect the UI state using the provided ViewModel
     val countryRankPopulationState by countryRankDensityViewModel.uiListState.collectAsState()
 
+    // Obtain the API state from the ViewModel
     val countryApiState = countryRankDensityViewModel.countryApiState
+
+    // Local variable to hold ranked countries
     var rankedCountries: List<Country> by remember { mutableStateOf(listOf()) }
 
+    // Composable block based on the API state
     when (countryApiState) {
         is CountryRankDensityApiState.Loading -> LoadingScreen()
         is CountryRankDensityApiState.Error -> ErrorScreen()
         is CountryRankDensityApiState.Success -> {
+            // Update ranked countries and display the density component
             rankedCountries = countryRankPopulationState.countries
             CountryRankDensityComponent(rankedCountries, goToHome)
         }
     }
 }
 
+/**
+ * Composable function representing the component displaying country rankings based on density.
+ *
+ * @param countries List of countries ranked by density.
+ * @param goToHome Callback function to navigate to the home screen.
+ */
 @Composable
 private fun CountryRankDensityComponent(
     countries: List<Country>,
@@ -59,6 +80,7 @@ private fun CountryRankDensityComponent(
 ) {
     val lazyListState = rememberLazyListState()
 
+    // Display the ranking top bar and the list of ranked countries
     RankingTopBar(rankingTitle = "Country density ranking", goToHome)
     LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
         itemsIndexed(countries.sortedByDescending { it.population / it.area }) { index, country ->
@@ -67,8 +89,15 @@ private fun CountryRankDensityComponent(
     }
 }
 
+/**
+ * Composable function representing an item in the density-based country ranking list.
+ *
+ * @param rank The ranking position of the country.
+ * @param country The country details to display.
+ */
 @Composable
 fun CountryRankDensityItem(rank: Int, country: Country) {
+    // Composable row displaying country details
     Row(
         modifier = Modifier
             .fillMaxWidth()

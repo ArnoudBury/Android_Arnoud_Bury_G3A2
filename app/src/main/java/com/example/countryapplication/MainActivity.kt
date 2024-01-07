@@ -14,7 +14,13 @@ import com.example.countryapplication.ui.CountryApp
 import com.example.countryapplication.ui.theme.CountryApplicationTheme
 import com.example.countryapplication.ui.utils.CountryNavigationType
 
+/**
+ * The main activity of the Country application.
+ */
 class MainActivity : ComponentActivity() {
+    /**
+     * Called when the activity is created.
+     */
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

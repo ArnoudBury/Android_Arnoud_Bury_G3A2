@@ -52,21 +52,36 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.country.Country
-import com.example.countryapplication.model.country.Currency
+import com.example.countryapplication.model.Country
+import com.example.countryapplication.model.Currency
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 
+/**
+ * Composable function to display country details.
+ *
+ * @param countryName The name of the country.
+ * @param goToCountries Callback to navigate back to the countries list.
+ * @param countryDetailViewModel The ViewModel for fetching country details.
+ */
 @Composable
-fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)) {
+fun CountryDetailScreen(
+    countryName: String,
+    goToCountries: () -> Unit,
+    countryDetailViewModel: CountryDetailViewModel = viewModel(factory = CountryDetailViewModel.Factory)
+) {
+    // Collecting the state of country details from the ViewModel
     val countryState by countryDetailViewModel.uiState.collectAsState()
 
+    // Fetching country details using a LaunchedEffect
     LaunchedEffect(key1 = countryName) {
         countryDetailViewModel.setCountryName(countryName)
     }
 
+    // Getting the API state of country details
     val countryApiState = countryDetailViewModel.countryDetailApiState
 
+    // Displaying different screens based on API state
     when (countryApiState) {
         is CountryDetailApiState.Loading -> LoadingScreen()
         is CountryDetailApiState.Error -> ErrorScreen()
@@ -77,6 +92,12 @@ fun CountryDetailScreen(countryName: String, goToCountries: () -> Unit, countryD
     }
 }
 
+/**
+ * Composable function to display detailed information about a country.
+ *
+ * @param countryState The state containing details of the country.
+ * @param goToCountries Callback to navigate back to the countries list.
+ */
 @Composable
 private fun CountryDetailComponent(
     countryState: CountryDetailState,
@@ -91,6 +112,12 @@ private fun CountryDetailComponent(
     }
 }
 
+/**
+ * Composable function to display the country's detailed information, including the country name, official name, and native names.
+ *
+ * @param country The [Country] object containing details of the country.
+ * @param goToCountries Callback function invoked when the back button is clicked.
+ */
 @Composable
 fun CountryDetailInfoName(country: Country?, goToCountries: () -> Unit) {
     if (country != null) {
@@ -129,6 +156,11 @@ fun CountryDetailInfoName(country: Country?, goToCountries: () -> Unit) {
     }
 }
 
+/**
+ * Composable function to display the country's national symbols, such as flag and coat of arms.
+ *
+ * @param country The [Country] object containing details of the country.
+ */
 @Composable
 fun CountryDetailInfoSymbol(country: Country?) {
     if (country != null) {
@@ -157,6 +189,12 @@ fun CountryDetailInfoSymbol(country: Country?) {
     }
 }
 
+/**
+ * Composable function to display a symbol associated with a country, such as flag or coat of arms.
+ *
+ * @param imageUrl The URL or path to the image representing the symbol.
+ * @param label The label or name of the symbol.
+ */
 @Composable
 fun CountrySymbol(imageUrl: String, label: String) {
     Column(
@@ -183,6 +221,11 @@ fun CountrySymbol(imageUrl: String, label: String) {
     }
 }
 
+/**
+ * Composable function to display various information about the country, arranged in a grid format.
+ *
+ * @param country The [Country] object containing details of the country.
+ */
 @Composable
 fun CountryDetailInfo(country: Country?) {
     if (country != null) {
@@ -237,7 +280,7 @@ fun CountryDetailInfo(country: Country?) {
             item {
                 CountryInfoItem(
                     key = "Independent",
-                    value = if (country.independent) "Yes" else "No",
+                    value = if (country.independent == true) "Yes" else "No",
                     icon = Icons.Default.CheckCircle,
                 )
             }
@@ -287,6 +330,13 @@ fun CountryDetailInfo(country: Country?) {
     }
 }
 
+/**
+ * Composable function to display each item of country information with an icon.
+ *
+ * @param key The key representing the type of information.
+ * @param value The value of the information.
+ * @param icon The icon representing the information type.
+ */
 @Composable
 fun CountryInfoItem(key: String, value: String, icon: ImageVector) {
     Row(
@@ -312,10 +362,23 @@ fun CountryInfoItem(key: String, value: String, icon: ImageVector) {
     }
 }
 
+/**
+ * Formats the country's currencies for display.
+ *
+ * @param currencies Map containing currency details.
+ * @return A formatted string containing currency names and symbols.
+ */
 fun formatCurrencies(currencies: Map<String, Currency>): String {
     return currencies.values.joinToString(", ") { "${it.name} (${it.symbol})" }
 }
 
+/**
+ * Joins the root and suffixes together and formats them with line breaks.
+ *
+ * @param root The root code.
+ * @param suffixes List of suffixes associated with the root code.
+ * @return A formatted string displaying the root and suffixes with line breaks.
+ */
 fun displayWithSuffixes(root: String, suffixes: List<String>): String {
     return suffixes.joinToString("\n") { "$root$it" }
 }

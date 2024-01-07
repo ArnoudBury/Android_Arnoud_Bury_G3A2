@@ -10,8 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
 import com.example.countryapplication.ui.navigation.CountryAppNavigation
 
+/**
+ * Composable function that displays a navigation rail for the country app.
+ *
+ * @param selectedDestination The currently selected navigation destination.
+ * @param onTabPressed Callback function invoked when a navigation tab is pressed.
+ * @param modifier Optional modifier for the navigation rail.
+ */
 @Composable
-fun CountryAppNavigationRail(selectedDestination: NavDestination?, onTabPressed: (String) -> Unit, modifier: Modifier = Modifier) {
+fun CountryAppNavigationRail(
+    selectedDestination: NavDestination?,
+    onTabPressed: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     NavigationRail(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primary,
@@ -37,3 +48,4 @@ fun CountryAppNavigationRail(selectedDestination: NavDestination?, onTabPressed:
         }
     }
 }
+

@@ -25,9 +25,17 @@ import com.example.countryapplication.ui.appBar.CountryAppNavigationRail
 import com.example.countryapplication.ui.appBar.MyBottomAppBar
 import com.example.countryapplication.ui.appBar.NavigationDrawerContent
 import com.example.countryapplication.ui.navigation.CountryAppNavigation
-import com.example.countryapplication.ui.navigation.navComponent
+import com.example.countryapplication.ui.navigation.NavComponent
 import com.example.countryapplication.ui.utils.CountryNavigationType
 
+/**
+ * Composable function responsible for rendering the Country Application UI based on the provided [navigationType].
+ * It utilizes different navigation patterns such as [CountryNavigationType.PERMANENT_NAVIGATION_DRAWER],
+ * [CountryNavigationType.BOTTOM_NAVIGATION], and [CountryNavigationType.NAVIGATION_RAIL] to display the UI components.
+ *
+ * @param navigationType The type of navigation pattern to be used for displaying the UI.
+ * @param navController The [NavHostController] managing navigation within the app. Defaults to [rememberNavController].
+ */
 @Composable
 fun CountryApp(navigationType: CountryNavigationType, navController: NavHostController = rememberNavController()) {
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
@@ -88,7 +96,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     topBar = {
                     },
                 ) { innerPadding ->
-                    navComponent(
+                    NavComponent(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
                         onCountryClick = ::onCountryClick,
@@ -96,7 +104,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                         goToAreaRank = goToAreaRank,
                         goToPopulationRank = goToPopulationRank,
                         goToDensityRank = goToDensityRank,
-                        goToHome = goToHome
+                        goToHome = goToHome,
                     )
                 }
             }
@@ -115,7 +123,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                 },
 
             ) { innerPadding ->
-                navComponent(
+                NavComponent(
                     navController = navController,
                     modifier = Modifier.padding(innerPadding),
                     onCountryClick = ::onCountryClick,
@@ -141,7 +149,7 @@ fun CountryApp(navigationType: CountryNavigationType, navController: NavHostCont
                     topBar = {
                     },
                 ) { innerPadding ->
-                    navComponent(
+                    NavComponent(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
                         onCountryClick = ::onCountryClick,

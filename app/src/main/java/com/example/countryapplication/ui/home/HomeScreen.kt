@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,14 +27,23 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
 
+/**
+ * Composable function representing the home screen of the Country Application.
+ * Displays country rankings and provides buttons to navigate to specific ranking categories.
+ *
+ * @param goToAreaRank Callback function to navigate to the area ranking screen.
+ * @param goToPopulationRank Callback function to navigate to the population ranking screen.
+ * @param goToDensityRank Callback function to navigate to the density ranking screen.
+ */
 @Composable
 fun HomeScreen(
     goToAreaRank: () -> Unit,
     goToPopulationRank: () -> Unit,
-    goToDensityRank: () -> Unit
+    goToDensityRank: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.verticalScroll(state = rememberScrollState()),
     ) {
         Text(
             text = "Country rankings",
@@ -59,6 +70,13 @@ fun HomeScreen(
     }
 }
 
+/**
+ * Composable function representing a clickable button with a background image.
+ *
+ * @param text The text displayed on the button.
+ * @param imageUrl The URL of the background image for the button.
+ * @param onClick Callback function triggered when the button is clicked.
+ */
 @Composable
 fun ButtonWithBackgroundImageClickable(
     text: String,

@@ -10,18 +10,36 @@ import com.example.countryapplication.data.converters.IddConverter
 import com.example.countryapplication.data.converters.MapStringConverter
 import com.example.countryapplication.data.converters.NameConverter
 import com.example.countryapplication.data.converters.StringListConverter
-import com.example.countryapplication.model.country.CapitalInfo
-import com.example.countryapplication.model.country.Car
-import com.example.countryapplication.model.country.CoatOfArms
-import com.example.countryapplication.model.country.Country
-import com.example.countryapplication.model.country.Currency
-import com.example.countryapplication.model.country.Flags
-import com.example.countryapplication.model.country.Idd
-import com.example.countryapplication.model.country.Maps
-import com.example.countryapplication.model.country.Name
-import com.example.countryapplication.model.country.NativeName
-import com.example.countryapplication.model.country.PostalCode
+import com.example.countryapplication.model.Car
+import com.example.countryapplication.model.CoatOfArms
+import com.example.countryapplication.model.Country
+import com.example.countryapplication.model.Currency
+import com.example.countryapplication.model.Flags
+import com.example.countryapplication.model.Idd
+import com.example.countryapplication.model.Name
+import com.example.countryapplication.model.NativeName
 
+/**
+ * Entity representing a country in the local database.
+ *
+ * @param commonName The common name of the country.
+ * @param officialName The official name of the country.
+ * @param nativeName The map representing the native names of the country.
+ * @param flags The flags associated with the country.
+ * @param coatOfArms The coat of arms associated with the country.
+ * @param population The population count of the country.
+ * @param area The area of the country.
+ * @param languages The languages spoken in the country.
+ * @param capital The list of capitals in the country.
+ * @param region The region where the country is located.
+ * @param timezones The list of timezones in the country.
+ * @param currencies The currencies used in the country.
+ * @param independent Indicates if the country is independent.
+ * @param unMember Indicates if the country is a UN member.
+ * @param tld The top-level domain associated with the country.
+ * @param idd The international direct dialing codes of the country.
+ * @param car Information about the country's driving side and car signs.
+ */
 @Entity(tableName = "countries", primaryKeys = ["officialName", "commonName"])
 @TypeConverters(
     NameConverter::class,
@@ -54,6 +72,9 @@ data class DbCountry(
 
 )
 
+/**
+ * Converts a [DbCountry] object to its corresponding [Country] domain object.
+ */
 fun DbCountry.asDomainCountry(): Country {
     return Country(
         name = Name(
@@ -62,42 +83,25 @@ fun DbCountry.asDomainCountry(): Country {
             nativeName = this.nativeName,
         ),
         tld = this.tld,
-        cca2 = "", // Set the appropriate value if available
-        ccn3 = "", // Set the appropriate value if available
-        cca3 = "", // Set the appropriate value if available
-        cioc = null, // Set the appropriate value if available
         independent = this.independent,
-        status = "", // Set the appropriate value if available
         unMember = this.unMember,
         currencies = this.currencies,
         idd = this.idd,
         capital = this.capital,
-        altSpellings = emptyList(), // Set the appropriate value if available
         region = this.region,
-        subregion = "", // Set the appropriate value if available
         languages = this.languages,
-        translations = emptyMap(), // Set the appropriate value if available
-        latlng = emptyList(), // Set the appropriate value if available
-        landlocked = false, // Set the appropriate value if available
-        borders = emptyList(), // Set the appropriate value if available
         area = this.area,
-        demonyms = emptyMap(), // Set the appropriate value if available
-        flag = this.flags.png,
-        maps = Maps("", ""), // Set the appropriate value if available
         population = this.population,
-        gini = emptyMap(), // Set the appropriate value if available
-        fifa = "", // Set the appropriate value if available
         car = this.car,
         timezones = this.timezones,
-        continents = emptyList(), // Set the appropriate value if available
         flags = this.flags,
         coatOfArms = this.coatOfArms,
-        startOfWeek = "", // Set the appropriate value if available
-        capitalInfo = CapitalInfo(emptyList()), // Set the appropriate value if available
-        postalCode = PostalCode("", ""), // Set the appropriate value if available
     )
 }
 
+/**
+ * Converts a [Country] domain object to its corresponding [DbCountry] object.
+ */
 fun Country.asDbCountry(): DbCountry {
     return DbCountry(
         commonName = this.name.common,
@@ -112,13 +116,17 @@ fun Country.asDbCountry(): DbCountry {
         region = this.region,
         timezones = this.timezones,
         currencies = this.currencies,
-        independent = this.independent,
+        independent = this.independent == true,
         unMember = this.unMember,
         tld = this.tld,
         idd = this.idd,
         car = this.car,
     )
 }
+
+/**
+ * Converts a list of [DbCountry] objects to a list of corresponding [Country] domain objects.
+ */
 fun List<DbCountry>.asDomainCountry(): List<Country> {
     var taskList = this.map {
         Country(
@@ -128,39 +136,19 @@ fun List<DbCountry>.asDomainCountry(): List<Country> {
                 nativeName = it.nativeName,
             ),
             tld = it.tld,
-            cca2 = "", // Set the appropriate value if available
-            ccn3 = "", // Set the appropriate value if available
-            cca3 = "", // Set the appropriate value if available
-            cioc = null, // Set the appropriate value if available
             independent = it.independent,
-            status = "", // Set the appropriate value if available
             unMember = it.unMember,
             currencies = it.currencies,
             idd = it.idd,
             capital = it.capital,
-            altSpellings = emptyList(), // Set the appropriate value if available
             region = it.region,
-            subregion = "", // Set the appropriate value if available
             languages = it.languages,
-            translations = emptyMap(), // Set the appropriate value if available
-            latlng = emptyList(), // Set the appropriate value if available
-            landlocked = false, // Set the appropriate value if available
-            borders = emptyList(), // Set the appropriate value if available
             area = it.area,
-            demonyms = emptyMap(), // Set the appropriate value if available
-            flag = it.flags.png,
-            maps = Maps("", ""), // Set the appropriate value if available
             population = it.population,
-            gini = emptyMap(), // Set the appropriate value if available
-            fifa = "", // Set the appropriate value if available
             car = it.car,
             timezones = it.timezones,
-            continents = emptyList(), // Set the appropriate value if available
             flags = it.flags,
             coatOfArms = it.coatOfArms,
-            startOfWeek = "", // Set the appropriate value if available
-            capitalInfo = CapitalInfo(emptyList()), // Set the appropriate value if available
-            postalCode = PostalCode("", ""), // Set the appropriate value if available
         )
     }
     return taskList

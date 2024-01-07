@@ -28,14 +28,23 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.country.Country
+import com.example.countryapplication.model.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
 import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 
+/**
+ * Composable function representing the screen displaying country rankings based on area.
+ *
+ * @param goToHome Navigation callback to return to the home screen.
+ * @param countryRankAreaViewModel The ViewModel managing area-based country rankings.
+ */
 @Composable
-fun CountryRankAreaScreen(goToHome: () -> Unit, countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory)) {
+fun CountryRankAreaScreen(
+    goToHome: () -> Unit,
+    countryRankAreaViewModel: CountryRankAreaViewModel = viewModel(factory = CountryRankAreaViewModel.Factory),
+) {
     val countryRankAreaState by countryRankAreaViewModel.uiListState.collectAsState()
 
     val countryApiState = countryRankAreaViewModel.countryApiState
@@ -51,10 +60,16 @@ fun CountryRankAreaScreen(goToHome: () -> Unit, countryRankAreaViewModel: Countr
     }
 }
 
+/**
+ * Composable function representing the component displaying area-based country rankings.
+ *
+ * @param countries List of countries sorted by area-based rankings.
+ * @param goToHome Navigation callback to return to the home screen.
+ */
 @Composable
 private fun CountryRankAreaComponent(
     countries: List<Country>,
-    goToHome: () -> Unit
+    goToHome: () -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -66,6 +81,12 @@ private fun CountryRankAreaComponent(
     }
 }
 
+/**
+ * Composable function representing each item in the area-based country rankings.
+ *
+ * @param rank The rank of the country in the area-based ranking.
+ * @param country The country entity for the item.
+ */
 @Composable
 fun CountryRankAreaItem(rank: Int, country: Country) {
     Row(
@@ -90,7 +111,7 @@ fun CountryRankAreaItem(rank: Int, country: Country) {
         Text(country.name.common)
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.standard_padding)))
         Text(
-            "${NumberFormatter.formatScientificNotation(country.area)} km²",
+            "${NumberFormatter.formatNumber(country.area)} km²",
             modifier = Modifier.weight(1f).padding(
                 end = dimensionResource(
                     R.dimen.standard_padding,

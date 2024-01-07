@@ -1,18 +1,21 @@
 package com.example.countryapplication.ui.utils
 
+/**
+ * Enumerates different types of navigation patterns available in the Country Application.
+ */
 enum class CountryNavigationType {
     /**
-     * Bottom navigation bar for switching between app sections.
+     * Represents a bottom navigation bar used for switching between different sections of the application.
      */
     BOTTOM_NAVIGATION,
 
     /**
-     * Vertical navigation rail for larger screens or tablets.
+     * Represents a vertical navigation rail typically used for larger screens or tablets to navigate sections.
      */
     NAVIGATION_RAIL,
 
     /**
-     * Permanent navigation drawer always visible on the screen.
+     * Represents a permanent navigation drawer that remains visible on the screen, facilitating navigation throughout the app.
      */
-    PERMANENT_NAVIGATION_DRAWER
+    PERMANENT_NAVIGATION_DRAWER,
 }

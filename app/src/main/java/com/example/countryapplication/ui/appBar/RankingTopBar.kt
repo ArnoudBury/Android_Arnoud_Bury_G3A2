@@ -16,6 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Composable function to display a top bar for ranking screens.
+ *
+ * @param rankingTitle The title to display in the top bar.
+ * @param goToHome Callback function invoked when the back button is pressed.
+ */
 @Composable
 fun RankingTopBar(rankingTitle: String, goToHome: () -> Unit) {
     Box(
@@ -41,3 +47,4 @@ fun RankingTopBar(rankingTitle: String, goToHome: () -> Unit) {
         )
     }
 }
+

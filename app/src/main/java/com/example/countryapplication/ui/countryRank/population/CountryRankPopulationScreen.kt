@@ -28,29 +28,50 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.example.countryapplication.R
-import com.example.countryapplication.model.country.Country
+import com.example.countryapplication.model.Country
 import com.example.countryapplication.ui.ErrorScreen
 import com.example.countryapplication.ui.LoadingScreen
 import com.example.countryapplication.ui.appBar.RankingTopBar
 import com.example.countryapplication.ui.countryRank.utils.NumberFormatter
 
+/**
+ * Composable function representing the screen displaying population-based country rankings.
+ *
+ * @param goToHome Callback function to navigate to the home screen.
+ * @param countryRankPopulationViewModel The ViewModel handling population-based country rankings.
+ */
 @Composable
-fun CountryRankPopulationScreen(goToHome: () -> Unit, countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)) {
+fun CountryRankPopulationScreen(
+    goToHome: () -> Unit,
+    countryRankPopulationViewModel: CountryRankPopulationViewModel = viewModel(factory = CountryRankPopulationViewModel.Factory)
+) {
+    // Collect the UI state using the provided ViewModel
     val countryRankPopulationState by countryRankPopulationViewModel.uiListState.collectAsState()
 
+    // Obtain the API state from the ViewModel
     val countryApiState = countryRankPopulationViewModel.countryApiState
+
+    // Local variable to hold ranked countries
     var rankedCountries: List<Country> by remember { mutableStateOf(listOf()) }
 
+    // Composable block based on the API state
     when (countryApiState) {
         is CountryRankPopulationApiState.Loading -> LoadingScreen()
         is CountryRankPopulationApiState.Error -> ErrorScreen()
         is CountryRankPopulationApiState.Success -> {
+            // Update ranked countries and display the population component
             rankedCountries = countryRankPopulationState.countries
             CountryRankPopulationComponent(rankedCountries, goToHome)
         }
     }
 }
 
+/**
+ * Composable function representing the component displaying country rankings based on population.
+ *
+ * @param countries List of countries ranked by population.
+ * @param goToHome Callback function to navigate to the home screen.
+ */
 @Composable
 private fun CountryRankPopulationComponent(
     countries: List<Country>,
@@ -58,6 +79,7 @@ private fun CountryRankPopulationComponent(
 ) {
     val lazyListState = rememberLazyListState()
 
+    // Display the ranking top bar and the list of ranked countries
     RankingTopBar(rankingTitle = "Country population ranking", goToHome)
     LazyColumn(state = lazyListState, modifier = Modifier.padding(top = 60.dp)) {
         itemsIndexed(countries.sortedByDescending { it.population }) { index, country ->
@@ -66,8 +88,15 @@ private fun CountryRankPopulationComponent(
     }
 }
 
+/**
+ * Composable function representing an item in the population-based country ranking list.
+ *
+ * @param rank The ranking position of the country.
+ * @param country The country details to display.
+ */
 @Composable
 fun CountryRankPopulationItem(rank: Int, country: Country) {
+    // Composable row displaying country details
     Row(
         modifier = Modifier
             .fillMaxWidth()

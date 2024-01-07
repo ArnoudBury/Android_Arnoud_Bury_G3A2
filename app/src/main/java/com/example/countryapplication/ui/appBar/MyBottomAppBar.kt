@@ -11,8 +11,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import com.example.countryapplication.ui.navigation.CountryAppNavigation
 
+/**
+ * Composable function that creates a custom bottom app bar for the country app.
+ *
+ * @param selectedDestination The currently selected navigation destination.
+ * @param onTabPressed Callback function invoked when a navigation tab is pressed.
+ */
 @Composable
-fun MyBottomAppBar(selectedDestination: NavDestination?, onTabPressed: ((String) -> Unit)) {
+fun MyBottomAppBar(
+    selectedDestination: NavDestination?,
+    onTabPressed: ((String) -> Unit),
+) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primary,
         actions = {
@@ -41,3 +50,4 @@ fun MyBottomAppBar(selectedDestination: NavDestination?, onTabPressed: ((String)
         },
     )
 }
+

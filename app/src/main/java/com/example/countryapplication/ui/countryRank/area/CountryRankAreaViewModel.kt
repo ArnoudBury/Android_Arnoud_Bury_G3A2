@@ -19,13 +19,27 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 
+/**
+ * ViewModel responsible for managing area-based country rankings in the Country Application.
+ *
+ * @property countryRepository The repository handling country-related data operations.
+ */
 class CountryRankAreaViewModel(private val countryRepository: CountryRepository) : ViewModel() {
 
+    /**
+     * Represents the current UI state for area-based country rankings.
+     */
     private val _uiState = MutableStateFlow(CountryRankAreaState())
     val uiState: StateFlow<CountryRankAreaState> = _uiState.asStateFlow()
 
+    /**
+     * Represents the current state of the country list UI.
+     */
     var uiListState: StateFlow<CountryRankAreaListState>
 
+    /**
+     * Represents the API state for area-based country rankings.
+     */
     var countryApiState: CountryRankAreaApiState by mutableStateOf(CountryRankAreaApiState.Loading)
         private set
 
@@ -34,6 +48,9 @@ class CountryRankAreaViewModel(private val countryRepository: CountryRepository)
         getApiCountriesRankedArea()
     }
 
+    /**
+     * Fetches area-based country rankings from the API and updates the UI states accordingly.
+     */
     private fun getApiCountriesRankedArea() {
         try {
             viewModelScope.launch { countryRepository.refresh() }
@@ -48,10 +65,17 @@ class CountryRankAreaViewModel(private val countryRepository: CountryRepository)
             countryApiState = CountryRankAreaApiState.Error
         }
     }
+
     companion object {
+        /**
+         * Factory to create instances of [CountryRankAreaViewModel] using [viewModelFactory].
+         */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as CountryApplication)
+                val application = (
+                    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as CountryApplication
+                    )
                 val countryRepository = application.container.countryRepository
                 CountryRankAreaViewModel(
                     countryRepository = countryRepository,
@@ -60,3 +84,4 @@ class CountryRankAreaViewModel(private val countryRepository: CountryRepository)
         }
     }
 }
+

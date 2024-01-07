@@ -7,6 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+/**
+ * Composable function representing an error screen.
+ */
 @Composable
 fun ErrorScreen() {
     Box(
