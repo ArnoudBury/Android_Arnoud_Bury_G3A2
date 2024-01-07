@@ -16,11 +16,17 @@ import com.example.countryapplication.ui.countryRank.area.CountryRankAreaScreen
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * UI tests for the CountryRankAreaScreen and CountryRankAreaComponent.
+ */
 class CountryScreenRankingAreaUiTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    /**
+     * Function to provide a list of mock countries for testing
+     */
     private fun getCountries(): List<Country> {
         return listOf(
             Country(
@@ -189,6 +195,9 @@ class CountryScreenRankingAreaUiTest {
         )
     }
 
+    /**
+     * Test to verify the appearance of the CountryRankAreaScreen.
+     */
     @Test
     fun countryScreenAreaRankingTest() {
         composeTestRule.setContent {
@@ -198,12 +207,17 @@ class CountryScreenRankingAreaUiTest {
         composeTestRule.onNodeWithText("Country area ranking").assertExists()
     }
 
+    /**
+     * Test to verify the appearance of individual countries in the CountryRankAreaComponent.
+     */
     @Test
     fun countryScreenAreaRankingComponentTest() {
+        // Set up the content with the CountryRankAreaComponent and mock countries
         composeTestRule.setContent {
             CountryRankAreaComponent(countries = getCountries(), goToHome = { Unit })
         }
 
+        // Assert that specific country names are displayed
         composeTestRule
             .onNodeWithText("Belgium")
             .assertIsDisplayed()

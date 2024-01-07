@@ -16,11 +16,15 @@ import com.example.countryapplication.ui.countryRank.population.CountryRankPopul
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * UI tests for the CountryRankPopulationScreen and CountryRankAreaComponent.
+ */
 class CountryScreenRankingPopulationUiTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    // Function to provide a list of mock countries for testing
     private fun getCountries(): List<Country> {
         return listOf(
             Country(
@@ -189,21 +193,31 @@ class CountryScreenRankingPopulationUiTest {
         )
     }
 
+    /**
+     * Test to verify the appearance of the CountryRankPopulationScreen.
+     */
     @Test
     fun countryScreenAreaRankingTest() {
+        // Set up the content with the CountryRankPopulationScreen
         composeTestRule.setContent {
             CountryRankPopulationScreen(goToHome = { Unit })
         }
 
+        // Assert that the "Country population ranking" text is displayed
         composeTestRule.onNodeWithText("Country population ranking").assertExists()
     }
 
+    /**
+     * Test to verify the appearance of individual countries in the CountryRankAreaComponent.
+     */
     @Test
     fun countryScreenAreaRankingComponentTest() {
+        // Set up the content with the CountryRankAreaComponent and mock countries
         composeTestRule.setContent {
             CountryRankAreaComponent(countries = getCountries(), goToHome = { Unit })
         }
 
+        // Assert that specific country names are displayed
         composeTestRule
             .onNodeWithText("Belgium")
             .assertIsDisplayed()

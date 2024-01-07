@@ -16,11 +16,17 @@ import com.example.countryapplication.ui.countryRank.density.CountryRankDensityS
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * UI tests for the CountryRankDensityScreen and CountryRankDensityComponent.
+ */
 class CountryScreenRankingDensityUiTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    /**
+     * Function to provide a list of mock countries for testing
+     */
     private fun getCountries(): List<Country> {
         return listOf(
             Country(
@@ -189,21 +195,31 @@ class CountryScreenRankingDensityUiTest {
         )
     }
 
+    /**
+     * Test to verify the appearance of the CountryRankDensityScreen.
+     */
     @Test
     fun countryScreenAreaRankingTest() {
+        // Set up the content with the CountryRankDensityScreen
         composeTestRule.setContent {
             CountryRankDensityScreen(goToHome = { Unit })
         }
 
+        // Assert that the "Country density ranking" text is displayed
         composeTestRule.onNodeWithText("Country density ranking").assertExists()
     }
 
+    /**
+     * Test to verify the appearance of individual countries in the CountryRankDensityComponent.
+     */
     @Test
     fun countryScreenAreaRankingComponentTest() {
+        // Set up the content with the CountryRankDensityComponent and mock countries
         composeTestRule.setContent {
             CountryRankDensityComponent(countries = getCountries(), goToHome = { Unit })
         }
 
+        // Assert that specific country names are displayed
         composeTestRule
             .onNodeWithText("Belgium")
             .assertIsDisplayed()

@@ -16,11 +16,15 @@ import com.example.countryapplication.ui.country.CountryScreen
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * UI tests for the CountryScreen and CountryListComponent.
+ */
 class CountryScreenUiTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    // Function to provide a list of mock countries for testing
     private fun getCountries(): List<Country> {
         return listOf(
             Country(
@@ -189,22 +193,32 @@ class CountryScreenUiTest {
         )
     }
 
+    /**
+     * Test to verify the appearance of the CountryScreen.
+     */
     @Test
     fun countryScreenTest() {
+        // Set up the content with the CountryScreen
         composeTestRule.setContent {
             CountryScreen(onCountryClick = { Unit })
         }
 
+        // Assert that the "Search" text is displayed
         composeTestRule.onNodeWithText("Search").assertExists()
     }
 
 
+    /**
+     * Test to verify the appearance of individual countries in the CountryListComponent.
+     */
     @Test
     fun countryScreenComponentTest() {
+        // Set up the content with the CountryListComponent and mock countries
         composeTestRule.setContent {
             CountryListComponent(countries = getCountries(), onCountryClick = { Unit }, onSearchTextChanged = { Unit })
         }
 
+        // Assert that specific country names are displayed
         composeTestRule
             .onNodeWithText("Belgium")
             .assertIsDisplayed()
