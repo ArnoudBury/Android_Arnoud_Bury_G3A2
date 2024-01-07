@@ -26,6 +26,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
+/**
+ * Test suite for [CountryDao] to verify database operations for countries.
+ */
 @RunWith(AndroidJUnit4::class)
 class CountryDaoTest {
     private lateinit var countryDao: CountryDao
@@ -135,15 +138,24 @@ class CountryDaoTest {
         tld = listOf(".de"),
     )
 
+    /**
+     * Add a single country to the database.
+     */
     suspend fun addOneCountry() {
         countryDao.insert(country1.asDbCountry())
     }
 
+    /**
+     * Add two countries to the database.
+     */
     suspend fun addTwoCountries() {
         countryDao.insert(country1.asDbCountry())
         countryDao.insert(country2.asDbCountry())
     }
 
+    /**
+     * Delete country1 from the database.
+     */
     suspend fun deleteCountry1() {
         countryDao.delete(country1.asDbCountry())
     }
@@ -163,6 +175,9 @@ class CountryDaoTest {
         countryDb.close()
     }
 
+    /**
+     * Test to verify inserting a country into the database.
+     */
     @Test
     @Throws(Exception::class)
     fun daoInsert_insertCountryIntoDB() = runBlocking {
@@ -172,6 +187,9 @@ class CountryDaoTest {
         assertEquals(allItems[0].asDomainCountry().flags.png, country1.flags.png)
     }
 
+    /**
+     * Test to verify fetching all countries from the database.
+     */
     @Test
     @Throws(Exception::class)
     fun daoGetAllCountries_returnsAllCountriesFromDB() = runBlocking {
@@ -183,6 +201,9 @@ class CountryDaoTest {
         assertEquals(allItems[1].asDomainCountry().flags.png, country2.flags.png)
     }
 
+    /**
+     * Test to verify deleting a specific country from the database.
+     */
     @Test
     @Throws(Exception::class)
     fun doaDeleteOneCountry_returnTotalSizeOne() = runBlocking {
@@ -192,6 +213,9 @@ class CountryDaoTest {
         TestCase.assertEquals(allItems.size, 1)
     }
 
+    /**
+     * Test to verify fetching a specific country from the database.
+     */
     @Test
     @Throws(Exception::class)
     fun doaGetOneSpecificCountry_returnsOneCountry() = runBlocking {
